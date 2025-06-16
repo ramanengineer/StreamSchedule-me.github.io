@@ -738,9 +738,7 @@
         toast.className = 'toast';
         toast.textContent = message;
         document.body.appendChild(toast);
-        setTimeout(() => {
-          toast.classList.add('show');
-        }, 10);
+        setTimeout(() => toast.classList.add('show'), 10);
         setTimeout(() => {
           toast.classList.remove('show');
           setTimeout(() => document.body.removeChild(toast), 300);
@@ -828,7 +826,7 @@
       }
 
       function getCurrentStreamer() {
-        return streamers.find(s => isStreamerLive(s)) || null;
+        return streamers.find(s => isStreamerLive(s)) || streamers[0];
       }
 
       function getNextStreamer() {
@@ -865,6 +863,7 @@
       }
 
       function generateIcsFile(streamer, streams) {
+        if (!streams.length) return null;
         const icsContent = [
           'BEGIN:VCALENDAR',
           'VERSION:2.0',
@@ -919,13 +918,17 @@
             }
           }
           daysChecked++;
-          if (daysChecked > 365) break; // Prevent infinite loop
+          if (daysChecked > 365) break;
         }
 
         return streams;
       }
 
       function updateProfile(streamer) {
+        if (!streamer) {
+          streamer = streamers[0];
+          showToast('No streamer selected, defaulting to first streamer.');
+        }
         selectedStreamerId = streamer.id;
         profileImg.src = streamer.avatar;
         profileImg.alt = `${streamer.name} logo`;
@@ -962,17 +965,26 @@
             }
             if (streams.length > 0) {
               const icsUrl = generateIcsFile(streamer, streams);
-              const a = document.createElement('a');
-              a.href = icsUrl;
-              a.download = `${streamer.name}_streams_${streams[0].start.toLocaleDateString('en-US').replace(/, /g, '')}.ics`;
-              a.click();
-              URL.revokeObjectURL(icsUrl);
-              showToast(`Added ${streams.length} stream${streams.length > 1 ? 's' : ''} to your calendar!`);
+              if (icsUrl) {
+                const a = document.createElement('a');
+                a.href = icsUrl;
+                a.download = `${streamer.name}_streams_${streams[0].start.toLocaleDateString('en-US').replace(/, /g, '')}.ics`;
+                a.click();
+                URL.revokeObjectURL(icsUrl);
+                showToast(`Added ${streams.length} stream${streams.length > 1 ? 's' : ''} to your calendar!`);
+              } else {
+                showToast('Error generating calendar file.');
+              }
             } else {
               showToast('No upcoming streams found for the selected period.');
             }
           };
         });
+        try {
+          window.history.replaceState(null, null, `#${encodeURIComponent(streamer.id)}`);
+        } catch (e) {
+          console.warn('Unable to update URL hash:', e.message);
+        }
       }
 
       const liveNowLi = document.createElement('li');
@@ -995,12 +1007,16 @@
         dropdownItems.classList.toggle('active');
         dropdownFace.classList.toggle('active');
         dropdown.setAttribute('aria-expanded', !isOpen);
+        if (!isOpen) {
+          dropdownItems.querySelector('li').focus();
+        }
       }
 
       function closeDropdown() {
         dropdownItems.classList.remove('active');
         dropdownFace.classList.remove('active');
         dropdown.setAttribute('aria-expanded', 'false');
+        dropdownFace.focus();
       }
 
       dropdownFace.addEventListener('click', (e) => {
@@ -1021,17 +1037,34 @@
         }
       });
 
+      dropdownItems.addEventListener('keydown', (e) => {
+        const items = Array.from(dropdownItems.querySelectorAll('li'));
+        const currentIndex = items.indexOf(document.activeElement);
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const nextIndex = (currentIndex + 1) % items.length;
+          items[nextIndex].focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prevIndex = (currentIndex - 1 + items.length) % items.length;
+          items[prevIndex].focus();
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          closeDropdown();
+        }
+      });
+
       dropdownItems.querySelectorAll('li').forEach(item => {
         item.addEventListener('click', (e) => {
           e.stopPropagation();
           let selectedStreamer;
           if (item.dataset.streamerId === 'live-now') {
-            selectedStreamer = getCurrentStreamer() || getNextStreamer();
+            selectedStreamer = getCurrentStreamer();
             dropdownText.textContent = 'Live Now';
             isLiveNowSelected = true;
           } else {
             selectedStreamer = streamers.find(s => s.id === item.dataset.streamerId);
-            dropdownText.textContent = item.textContent;
+            dropdownText.textContent = selectedStreamer.name;
             isLiveNowSelected = false;
           }
           updateProfile(selectedStreamer);
@@ -1043,12 +1076,12 @@
             e.preventDefault();
             let selectedStreamer;
             if (item.dataset.streamerId === 'live-now') {
-              selectedStreamer = getCurrentStreamer() || getNextStreamer();
+              selectedStreamer = getCurrentStreamer();
               dropdownText.textContent = 'Live Now';
               isLiveNowSelected = true;
             } else {
               selectedStreamer = streamers.find(s => s.id === item.dataset.streamerId);
-              dropdownText.textContent = item.textContent;
+              dropdownText.textContent = selectedStreamer.name;
               isLiveNowSelected = false;
             }
             updateProfile(selectedStreamer);
@@ -1057,41 +1090,66 @@
         });
       });
 
-      function init() {
-        let selectedStreamer;
-        const hash = window.location.hash.substring(1);
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+
+      function loadStreamerFromHash() {
+        const hash = window.location.hash.substring(1).toLowerCase();
         if (hash) {
-          selectedStreamer = streamers.find(s => s.id.toLowerCase() === decodeURIComponent(hash).toLowerCase());
+          const selectedStreamer = streamers.find(s => s.id.toLowerCase() === decodeURIComponent(hash));
           if (selectedStreamer) {
             dropdownText.textContent = selectedStreamer.name;
-            selectedStreamerId = selectedStreamer.id;
+            isLiveNowSelected = false;
+            updateProfile(selectedStreamer);
+            return selectedStreamer;
           }
         }
+        return null;
+      }
+
+      function init() {
+        let selectedStreamer = loadStreamerFromHash();
         if (!selectedStreamer) {
-          selectedStreamer = getCurrentStreamer() || getNextStreamer();
-          dropdownText.textContent = 'Select Streamer';
+          selectedStreamer = getCurrentStreamer();
+          dropdownText.textContent = selectedStreamer.name;
           isLiveNowSelected = false;
+          try {
+            window.history.replaceState(null, null, `#${encodeURIComponent(selectedStreamer.id)}`);
+          } catch (e) {
+            console.warn('Unable to set initial URL hash:', e.message);
+          }
         }
         updateProfile(selectedStreamer);
       }
 
       init();
 
-      window.addEventListener('hashchange', () => {
-        const hash = window.location.hash.substring(1);
-        if (hash) {
-          const selectedStreamer = streamers.find(s => s.id.toLowerCase() === decodeURIComponent(hash).toLowerCase());
-          if (selectedStreamer) {
-            dropdownText.textContent = selectedStreamer.name;
-            isLiveNowSelected = false;
-            updateProfile(selectedStreamer);
-          }
+      const handleHashChange = debounce(() => {
+        const selectedStreamer = loadStreamerFromHash();
+        if (selectedStreamer) {
+          updateProfile(selectedStreamer);
+        } else {
+          const fallbackStreamer = getCurrentStreamer();
+          dropdownText.textContent = fallbackStreamer.name;
+          isLiveNowSelected = false;
+          updateProfile(fallbackStreamer);
         }
-      });
+      }, 100);
+
+      window.addEventListener('hashchange', handleHashChange);
 
       setInterval(() => {
         if (isLiveNowSelected) {
-          const currentStreamer = getCurrentStreamer() || getNextStreamer();
+          const currentStreamer = getCurrentStreamer();
           updateProfile(currentStreamer);
         }
       }, 60000);
