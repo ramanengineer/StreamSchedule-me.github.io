@@ -454,24 +454,6 @@
       box-shadow: var(--glow);
     }
 
-    .reminder-button:hover::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--glass-bg);
-      color: var(--text);
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      white-space: nowrap;
-      z-index: 10;
-      margin-bottom: 10px;
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-    }
-
     .toast {
       position: fixed;
       bottom: 20px;
@@ -572,9 +554,9 @@
         <h3>Upcoming Stream</h3>
         <p id="next-streamer-text">The next stream will be live with TBD on TBD at TBD NZST</p>
         <div class="reminder-buttons">
-          <button class="reminder-button" data-type="next-1" data-tooltip="Add a reminder for the next stream"><i class="fas fa-bell"></i> Remind for Next Stream</button>
-          <button class="reminder-button" data-type="next-7" data-tooltip="Add reminders for the next 7 streams"><i class="fas fa-bell"></i> Remind for 7 Streams</button>
-          <button class="reminder-button" data-type="month" data-tooltip="Add reminders for all streams in the next 30 days"><i class="fas fa-bell"></i> Remind for 1 Month</button>
+          <button class="reminder-button" data-type="next-1"><i class="fas fa-bell"></i> Add the next stream to my calendar</button>
+          <button class="reminder-button" data-type="next-7"><i class="fas fa-bell"></i> Add the next 7 streams to my calendar</button>
+          <button class="reminder-button" data-type="month"><i class="fas fa-bell"></i> Add the next month's streams to my calendar</button>
         </div>
       </div>
     </div>
@@ -882,35 +864,38 @@
         return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
       }
 
-      function generateIcsFile(streamer, streamDate) {
-        const startDate = new Date(streamDate);
-        const endDate = new Date(streamDate);
-        endDate.setHours(streamer.endHour, 0, 0, 0);
-        if (endDate < startDate) endDate.setDate(endDate.getDate() + 1);
-
-        const profileUrl = `https://streamschedule.me/#${encodeURIComponent(streamer.id)}`;
+      function generateIcsFile(streamer, streams) {
         const icsContent = [
           'BEGIN:VCALENDAR',
           'VERSION:2.0',
-          'PRODID:-//StreamSchedule.me//Stream Reminder//EN',
-          'BEGIN:VEVENT',
-          `UID:${streamer.id}-${streamDate.getTime()}@streamschedule.me`,
-          `DTSTAMP:${formatIcsDate(new Date())}`,
-          `DTSTART:${formatIcsDate(startDate)}`,
-          `DTEND:${formatIcsDate(endDate)}`,
-          `SUMMARY:${streamer.name}'s Live Stream`,
-          `DESCRIPTION:Join ${streamer.name} for an epic live stream on Twitch at ${streamer.twitch}! View schedule at ${profileUrl}`,
-          `URL:${profileUrl}`,
-          'BEGIN:VALARM',
-          'TRIGGER:-PT15M',
-          'ACTION:DISPLAY',
-          `DESCRIPTION:Reminder: ${streamer.name}'s stream is starting soon!`,
-          'END:VALARM',
-          'END:VEVENT',
-          'END:VCALENDAR'
-        ].join('\r\n');
+          'PRODID:-//StreamSchedule.me//Stream Reminder//EN'
+        ];
 
-        const blob = new Blob([icsContent], { type: 'text/calendar' });
+        streams.forEach((stream, index) => {
+          const startDate = new Date(stream.start);
+          const endDate = new Date(stream.end);
+          const profileUrl = `https://streamschedule.me/#${encodeURIComponent(streamer.id)}`;
+          icsContent.push(
+            'BEGIN:VEVENT',
+            `UID:${streamer.id}-${stream.start.getTime()}-${index}@streamschedule.me`,
+            `DTSTAMP:${formatIcsDate(new Date())}`,
+            `DTSTART:${formatIcsDate(startDate)}`,
+            `DTEND:${formatIcsDate(endDate)}`,
+            `SUMMARY:${streamer.name}'s Live Stream`,
+            `DESCRIPTION:Join ${streamer.name} for an epic live stream on Twitch at ${streamer.twitch}! View schedule at ${profileUrl}`,
+            `URL:${profileUrl}`,
+            'BEGIN:VALARM',
+            'TRIGGER:-PT15M',
+            'ACTION:DISPLAY',
+            `DESCRIPTION:Reminder: ${streamer.name}'s stream is starting soon!`,
+            'END:VALARM',
+            'END:VEVENT'
+          );
+        });
+
+        icsContent.push('END:VCALENDAR');
+
+        const blob = new Blob([icsContent.join('\r\n')], { type: 'text/calendar' });
         return URL.createObjectURL(blob);
       }
 
@@ -976,7 +961,7 @@
                 break;
             }
             if (streams.length > 0) {
-              const icsUrl = generateIcsFile(streamer, streams[0].start);
+              const icsUrl = generateIcsFile(streamer, streams);
               const a = document.createElement('a');
               a.href = icsUrl;
               a.download = `${streamer.name}_streams_${streams[0].start.toLocaleDateString('en-US').replace(/, /g, '')}.ics`;
