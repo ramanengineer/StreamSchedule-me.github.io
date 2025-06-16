@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamSchedule.me - Epic Twitch Schedules</title>
+  <meta name="description" content="Explore schedules for your favorite Twitch streamers on StreamSchedule.me. Watch live, view VODs, and set calendar reminders. Access via streamschedule.me/#username!">
+  <meta name="keywords" content="stream schedule, Twitch, streamers, xwlasxd, HeavySamLifts, ShadyPeterLive, ramkrishanghoil, zxckjsdv, brbcompiling, ogvkorg, TrevorMarksman, ValentineCoolio, LegacyMartian, MovieByMacaffe, BizaroPeter, GynaWENS, ggqporg, xvbrznem">
+  <meta name="author" content="StreamSchedule.me">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="StreamSchedule.me - Epic Twitch Schedules">
+  <meta property="og:description" content="Dive into epic Twitch streamer schedules on StreamSchedule.me. Watch live streams, view VODs, and set reminders. Access via streamschedule.me/#username!">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://streamschedule.me">
+  <meta property="og:image" content="https://i.postimg.cc/m2KQ0GDv/OGVK-ORG-LOGO-FINAL.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="StreamSchedule.me - Epic Twitch Schedules">
+  <meta name="twitter:description" content="Explore Twitch streamer schedules, watch live, view VODs, and set reminders on StreamSchedule.me. Access via streamschedule.me/#username!">
+  <meta name="twitter:image" content="https://i.postimg.cc/m2KQ0GDv/OGVK-ORG-LOGO-FINAL.png">
+  <link rel="canonical" href="https://streamschedule.me">
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/m2KQ0GDv/OGVK-ORG-LOGO-FINAL.png">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #1e1e2e;
+      --bg-accent: #2a2a3a;
+      --text: #f5f5fa;
+      --text-muted: #c5c5d5;
+      --button: #5865f2;
+      --button-hover: #4752c4;
+      --streamer-button: #ff007b;
+      --streamer-button-hover: #cc0062;
+      --live-badge: #ff0000;
+      --live-badge-hover: #cc0000;
+      --calendar-button: #4caf50;
+      --calendar-button-hover: #388e3c;
+      --twitch-color: #9146ff;
+      --glass-bg: rgba(30, 30, 46, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --glow: 0 0 12px rgba(88, 101, 242, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--bg-dark), var(--bg-accent));
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--text); text-decoration: none; }
+    a:hover { text-decoration: none; }
+    h1, h2, h3 { font-weight: 700; text-align: center; }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 1.2s ease-out;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 24px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .intro h1 {
+      font-size: clamp(2.5rem, 6vw, 3rem);
+      color: var(--text);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      margin-bottom: 12px;
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    .intro p {
+      font-size: clamp(1.1rem, 2.5vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 600px;
+    }
+
+    .streamer-select {
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .dropdown {
+      position: relative;
+      width: 100%;
+    }
+
+    .dropdown__face {
+      background: var(--glass-bg);
+      padding: 1.2rem 1.8rem;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      color: var(--text);
+      font-size: clamp(1.1rem, 3vw, 1.3rem);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .dropdown__face:hover, .dropdown__face:focus {
+      background: var(--button-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
+    }
+
+    .dropdown__text {
+      flex-grow: 1;
+      text-align: left;
+    }
+
+    .dropdown__items {
+      position: absolute;
+      left: 0;
+      top: calc(100% + 0.5rem);
+      width: 100%;
+      list-style: none;
+      display: none;
+      flex-direction: column;
+      gap: 0.6rem;
+      z-index: 150;
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      padding: 1rem;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      animation: slideDown 0.3s ease-in-out;
+      max-height: 60vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow);
+    }
+
+    .dropdown__items.active {
+      display: flex;
+    }
+
+    .dropdown__items::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .dropdown__items::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+      border-radius: 5px;
+    }
+
+    .dropdown__items::-webkit-scrollbar-thumb {
+      background: var(--streamer-button);
+      border-radius: 5px;
+    }
+
+    .dropdown__items::-webkit-scrollbar-thumb:hover {
+      background: var(--streamer-button-hover);
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-0.5rem); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dropdown__items li {
+      padding: 0.9rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      font-weight: 600;
+      color: var(--text);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .dropdown__items li:hover, .dropdown__items li:focus {
+      background: var(--button-hover);
+      color: var(--text);
+      box-shadow: var(--glow);
+      transform: translateX(4px);
+    }
+
+    .dropdown__items li.live-now {
+      background: var(--live-badge);
+      color: var(--text);
+      font-weight: 700;
+      position: relative;
+    }
+
+    .dropdown__items li.live-now:hover, .dropdown__items li.live-now:focus {
+      background: var(--live-badge-hover);
+    }
+
+    .dropdown__items li.live-now::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 8px;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      background: var(--text);
+      border-radius: 50%;
+      animation: flash 1.5s infinite ease-in-out;
+    }
+
+    @keyframes flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .dropdown__arrow {
+      border-bottom: 2px solid var(--text);
+      border-right: 2px solid var(--text);
+      width: 0.8rem;
+      height: 0.8rem;
+      transform: rotate(45deg);
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown__face.active .dropdown__arrow {
+      transform: rotate(-135deg);
+    }
+
+    .status-container {
+      margin-bottom: 16px;
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .live-badge {
+      background: var(--live-badge);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: none;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .live-badge.active {
+      display: inline-block;
+    }
+
+    .live-badge:hover {
+      background: var(--live-badge-hover);
+      transform: translateY(-2px);
+    }
+
+    .live-badge::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 8px;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      background: var(--text);
+      border-radius: 50%;
+      animation: flash 1.5s infinite ease-in-out;
+    }
+
+    .schedule-info {
+      background: var(--glass-bg);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: none;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .schedule-info.active {
+      display: inline-block;
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      transition: transform 0.4s ease;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+    }
+
+    .profile:hover {
+      transform: translateY(-8px);
+    }
+
+    .profile img {
+      width: 240px;
+      height: 240px;
+      border-radius: 20px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      transition: transform 0.4s ease;
+    }
+
+    .profile img:hover {
+      transform: scale(1.1);
+    }
+
+    .profile h2 {
+      font-size: 2.3rem;
+      color: var(--text);
+      margin-bottom: 12px;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .profile p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 20px;
+      max-width: 500px;
+    }
+
+    .twitch-button {
+      background: var(--twitch-color);
+      border-radius: 12px;
+      padding: 14px 36px;
+      color: var(--text);
+      font-size: 1.15rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+    }
+
+    .twitch-button:hover {
+      background: #7a3ed6;
+      transform: translateY(-4px);
+      box-shadow: var(--glow);
+    }
+
+    .next-streamer-container {
+      margin-top: 24px;
+      text-align: center;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      width: 100%;
+      max-width: 600px;
+      box-shadow: var(--shadow);
+    }
+
+    .next-streamer-container h3 {
+      font-size: 1.5rem;
+      color: var(--text);
+      margin-bottom: 12px;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .next-streamer-container p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .calendar-button {
+      background: var(--calendar-button);
+      border-radius: 12px;
+      padding: 12px 24px;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+    }
+
+    .calendar-button:hover {
+      background: var(--calendar-button-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--glow);
+    }
+
+    .reminder-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .reminder-button {
+      background: var(--calendar-button);
+      border-radius: 12px;
+      padding: 12px 24px;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      width: 100%;
+      text-align: center;
+    }
+
+    .reminder-button:hover {
+      background: var(--calendar-button-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--glow);
+    }
+
+    .reminder-button:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--glass-bg);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      z-index: 10;
+      margin-bottom: 10px;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--glass-bg);
+      color: var(--text);
+      padding: 12px 24px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      z-index: 1000;
+      opacity: 0;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-10px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 12px; }
+      .intro h1 { font-size: clamp(2rem, 5vw, 2.5rem); }
+      .intro p { font-size: clamp(1rem, 2vw, 1.1rem); }
+      .streamer-select { max-width: 400px; }
+      .dropdown__face { padding: 1rem 1.5rem; font-size: clamp(1rem, 2.5vw, 1.1rem); }
+      .dropdown__items { padding: 0.8rem; }
+      .dropdown__items li { font-size: clamp(0.9rem, 2vw, 1rem); }
+      .profile { padding: 28px; }
+      .profile img { width: 200px; height: 200px; }
+      .profile h2 { font-size: 2rem; }
+      .profile p { font-size: 1.05rem; }
+      .twitch-button { padding: 12px 32px; font-size: 1rem; }
+      .reminder-button { padding: 10px 20px; font-size: 0.9rem; }
+      .next-streamer-container { padding: 16px; }
+      .next-streamer-container h3 { font-size: 1.3rem; }
+      .next-streamer-container p { font-size: 1rem; }
+      .calendar-button { padding: 10px 20px; font-size: 0.9rem; }
+    }
+
+    @media (max-width: 480px) {
+      .streamer-select { max-width: 320px; }
+      .dropdown__face { padding: 0.8rem 1.2rem; font-size: clamp(0.9rem, 2vw, 1rem); }
+      .dropdown__items { padding: 0.7rem; }
+      .dropdown__items li { font-size: clamp(0.85rem, 2vw, 0.95rem); }
+      .profile { padding: 20px; }
+      .profile img { width: 160px; height: 160px; }
+      .profile h2 { font-size: 1.7rem; }
+      .profile p { font-size: 0.95rem; }
+      .twitch-button { padding: 10px 28px; font-size: 0.95rem; }
+      .reminder-button { padding: 8px 16px; font-size: 0.85rem; }
+      .next-streamer-container { padding: 12px; }
+      .next-streamer-container h3 { font-size: 1.2rem; }
+      .next-streamer-container p { font-size: 0.9rem; }
+      .calendar-button { padding: 8px 16px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="intro">
+      <h1>StreamSchedule.me</h1>
+      <p>Explore schedules for your favorite Twitch streamers. Watch live, view VODs, and set calendar reminders. Access via streamschedule.me/#username!</p>
+    </div>
+    <div class="streamer-select">
+      <div class="dropdown" role="combobox" aria-expanded="false">
+        <div class="dropdown__face" tabindex="0">
+          <div class="dropdown__text" id="dropdown-text">Select Streamer</div>
+          <div class="dropdown__arrow"></div>
+        </div>
+        <ul class="dropdown__items" id="streamer-dropdown">
+          <!-- Streamer options will be populated by JavaScript -->
+        </ul>
+      </div>
+    </div>
+    <div class="status-container">
+      <a class="live-badge" id="live-badge" href="#" target="_blank">Live on Twitch!</a>
+      <div class="schedule-info" id="schedule-info">Next stream in: TBD</div>
+    </div>
+    <div class="profile" id="profile">
+      <img src="https://i.postimg.cc/m2KQ0GDv/OGVK-ORG-LOGO-FINAL.png" alt="ogvkorg logo" loading="lazy">
+      <h2>ogvkorg</h2>
+      <p>Join ogvkorg for epic gaming sessions, variety streams, and a vibrant Twitch community!</p>
+      <a class="twitch-button" id="twitch-button" href="#" target="_blank"><i class="fab fa-twitch"></i> Watch on Twitch</a>
+      <div class="next-streamer-container" id="next-streamer">
+        <h3>Upcoming Stream</h3>
+        <p id="next-streamer-text">The next stream will be live with TBD on TBD at TBD NZST</p>
+        <div class="reminder-buttons">
+          <button class="reminder-button" data-type="next-1" data-tooltip="Add a reminder for the next stream"><i class="fas fa-bell"></i> Remind for Next Stream</button>
+          <button class="reminder-button" data-type="next-7" data-tooltip="Add reminders for the next 7 streams"><i class="fas fa-bell"></i> Remind for 7 Streams</button>
+          <button class="reminder-button" data-type="month" data-tooltip="Add reminders for all streams in the next 30 days"><i class="fas fa-bell"></i> Remind for 1 Month</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const streamers = [
+      {
+        id: 'xwlasxd',
+        name: 'xwlasxd',
+        avatar: 'https://i.postimg.cc/F1k6Lykq/xwlasxd-logo.png',
+        twitch: 'https://twitch.tv/xwlasxd',
+        vods: 'https://twitch.tv/xwlasxd/videos',
+        startHour: 0,
+        endHour: 3,
+        streamingDays: [1, 3, 5, 0]
+      },
+      {
+        id: 'HeavySamLifts',
+        name: 'HeavySamLifts',
+        avatar: 'https://i.postimg.cc/MMNrLTNd/HSL-logo.png',
+        twitch: 'https://twitch.tv/HeavySamLifts',
+        vods: 'https://twitch.tv/HeavySamLifts/videos',
+        startHour: 3,
+        endHour: 6,
+        streamingDays: [1, 3, 5, 0]
+      },
+      {
+        id: 'ShadyPeterLive',
+        name: 'ShadyPeterLive',
+        avatar: 'https://i.postimg.cc/2V4XHCw7/shady-peter-live-profile-3k.png',
+        twitch: 'https://twitch.tv/ShadyPeterLive',
+        vods: 'https://twitch.tv/ShadyPeterLive/videos',
+        startHour: 6,
+        endHour: 9,
+        streamingDays: [1, 3, 5, 0]
+      },
+      {
+        id: 'ramkrishanghoil',
+        name: 'ramkrishanghoil',
+        avatar: 'https://i.postimg.cc/3kTz7kRq/rkg-logo.png',
+        twitch: 'https://twitch.tv/ramkrishanghoil',
+        vods: 'https://twitch.tv/ramkrishanghoil/videos',
+        startHour: 9,
+        endHour: 12,
+        streamingDays: [1, 3, 5, 0]
+      },
+      {
+        id: 'zxckjsdv',
+        name: 'zxckjsdv',
+        avatar: 'https://i.postimg.cc/0QqJjT1F/zxckjsdv-profile.png',
+        twitch: 'https://twitch.tv/zxckjsdv',
+        vods: 'https://twitch.tv/zxckjsdv/videos',
+        startHour: 12,
+        endHour: 15,
+        streamingDays: [1, 3, 5, 0]
+      },
+      {
+        id: 'brbcompiling',
+        name: 'brbcompiling',
+        avatar: 'https://i.postimg.cc/LXhwKQ7N/brbcompiling-profile.png',
+        twitch: 'https://twitch.tv/brbcompiling',
+        vods: 'https://twitch.tv/brbcompiling/videos',
+        startHour: 15,
+        endHour: 17,
+        streamingDays: [1, 3, 5, 0]
+      },
+      {
+        id: 'ogvkorg',
+        name: 'ogvkorg',
+        avatar: 'https://i.postimg.cc/m2KQ0GDv/OGVK-ORG-LOGO-FINAL.png',
+        twitch: 'https://twitch.tv/ogvkorg',
+        vods: 'https://twitch.tv/ogvkorg/videos',
+        startHour: 17,
+        endHour: 18,
+        streamingDays: [1, 3, 5, 0]
+      },
+      {
+        id: 'TrevorMarksman',
+        name: 'TrevorMarksman',
+        avatar: 'https://i.postimg.cc/ZRpYD5yd/random-easy-logo.png',
+        twitch: 'https://twitch.tv/TrevorMarksman',
+        vods: 'https://twitch.tv/TrevorMarksman/videos',
+        startHour: 0,
+        endHour: 3,
+        streamingDays: [2, 4, 6]
+      },
+      {
+        id: 'ValentineCoolio',
+        name: 'ValentineCoolio',
+        avatar: 'https://i.postimg.cc/P57tXwWD/coolio-kick.png',
+        twitch: 'https://twitch.tv/ValentineCoolio',
+        vods: 'https://twitch.tv/ValentineCoolio/videos',
+        startHour: 3,
+        endHour: 6,
+        streamingDays: [2, 4, 6]
+      },
+      {
+        id: 'LegacyMartian',
+        name: 'LegacyMartian',
+        avatar: 'https://i.postimg.cc/PLfcp01z/legacy-martian-logo.png',
+        twitch: 'https://twitch.tv/LegacyMartian',
+        vods: 'https://twitch.tv/LegacyMartian/videos',
+        startHour: 6,
+        endHour: 9,
+        streamingDays: [2, 4, 6]
+      },
+      {
+        id: 'MovieByMacaffe',
+        name: 'MovieByMacaffe',
+        avatar: 'https://i.postimg.cc/hjLg1ZH8/macaffe-best-logo.png',
+        twitch: 'https://twitch.tv/MovieByMacaffe',
+        vods: 'https://twitch.tv/MovieByMacaffe/videos',
+        startHour: 9,
+        endHour: 12,
+        streamingDays: [2, 4, 6]
+      },
+      {
+        id: 'BizaroPeter',
+        name: 'BizaroPeter',
+        avatar: 'https://i.postimg.cc/9XsKQYKC/bizaropeter-profile.png',
+        twitch: 'https://twitch.tv/BizaroPeter',
+        vods: 'https://twitch.tv/BizaroPeter/videos',
+        startHour: 12,
+        endHour: 15,
+        streamingDays: [2, 4, 6]
+      },
+      {
+        id: 'GynaWENS',
+        name: 'GynaWENS',
+        avatar: 'https://i.postimg.cc/k5jh3QWr/wens-logo.png',
+        twitch: 'https://twitch.tv/GynaWENS',
+        vods: 'https://twitch.tv/GynaWENS/videos',
+        startHour: 15,
+        endHour: 17,
+        streamingDays: [2, 4, 6]
+      },
+      {
+        id: 'ggqporg',
+        name: 'ggqporg',
+        avatar: 'https://i.postimg.cc/pVzjDw2v/GGQP-ORG-LOGO-png.png',
+        twitch: 'https://twitch.tv/ggqporg',
+        vods: 'https://twitch.tv/ggqporg/videos',
+        startHour: 17,
+        endHour: 18,
+        streamingDays: [2, 4, 6]
+      },
+      {
+        id: 'xvbrznem',
+        name: 'xvbrznem',
+        avatar: 'https://i.postimg.cc/HcVh35Zr/xvbrznem-logo.jpg',
+        twitch: 'https://twitch.tv/xvbrznem',
+        vods: 'https://twitch.tv/xvbrznem/videos',
+        startHour: 18,
+        endHour: 24,
+        streamingDays: [1, 2, 3, 4, 5, 6, 0]
+      }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropdownFace = document.querySelector('.dropdown__face');
+      const dropdownItems = document.querySelector('.dropdown__items');
+      const dropdownText = document.getElementById('dropdown-text');
+      const profile = document.getElementById('profile');
+      const profileImg = profile.querySelector('img');
+      const profileTitle = profile.querySelector('h2');
+      const profileDescription = profile.querySelector('p');
+      const twitchButton = document.getElementById('twitch-button');
+      const liveBadge = document.getElementById('live-badge');
+      const scheduleInfo = document.getElementById('schedule-info');
+      const nextStreamerText = document.getElementById('next-streamer-text');
+      const reminderButtons = document.querySelectorAll('.reminder-button');
+      const dropdown = document.querySelector('.dropdown');
+
+      let selectedStreamerId = null;
+      let isLiveNowSelected = false;
+
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+          toast.classList.add('show');
+        }, 10);
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => document.body.removeChild(toast), 300);
+        }, 3000);
+      }
+
+      function getNzTime(date) {
+        return new Date(date.toLocaleString("en-US", { timeZone: "Pacific/Auckland" }));
+      }
+
+      function isStreamingDay(streamer, date) {
+        return streamer.streamingDays.includes(date.getDay());
+      }
+
+      function isStreamerLive(streamer) {
+        const nzTime = getNzTime(new Date());
+        const currentHour = nzTime.getHours();
+        return isStreamingDay(streamer, nzTime) && currentHour >= streamer.startHour && currentHour < streamer.endHour;
+      }
+
+      function getTimeLeft(streamer) {
+        const nzTime = getNzTime(new Date());
+        const currentHour = nzTime.getHours();
+        const currentMinute = nzTime.getMinutes();
+        const endTime = streamer.endHour;
+        const hoursLeft = endTime - currentHour - 1;
+        const minutesLeft = 60 - currentMinute;
+        let timeString = '';
+        if (hoursLeft > 0) timeString += `${hoursLeft}h `;
+        if (minutesLeft > 0) timeString += `${minutesLeft}m`;
+        return timeString.trim() || '<1m';
+      }
+
+      function getNextStreamInfo(streamer) {
+        const nzTime = getNzTime(new Date());
+        const currentDay = nzTime.getDay();
+        const currentHour = nzTime.getHours();
+        let nextDay = currentDay;
+        let daysToAdd = 0;
+
+        let startOffset = isStreamerLive(streamer) ? 1 : 0;
+        for (let i = startOffset; i <= 7 + startOffset; i++) {
+          nextDay = (currentDay + i) % 7;
+          if (streamer.streamingDays.includes(nextDay)) {
+            daysToAdd = i;
+            break;
+          }
+        }
+
+        const nextStreamDate = new Date(nzTime);
+        nextStreamDate.setDate(nzTime.getDate() + daysToAdd);
+        nextStreamDate.setHours(streamer.startHour, 0, 0, 0);
+
+        if (isStreamingDay(streamer, nzTime) && !isStreamerLive(streamer) && currentHour < streamer.startHour && !startOffset) {
+          nextStreamDate.setDate(nzTime.getDate());
+          nextStreamDate.setHours(streamer.startHour, 0, 0, 0);
+        }
+
+        const timeDiffMs = nextStreamDate - nzTime;
+        const hoursLeft = Math.floor(timeDiffMs / (1000 * 60 * 60));
+        const minutesLeft = Math.floor((timeDiffMs % (1000 * 60 * 60)) / (1000 * 60));
+        let countdownString = 'Next stream in: ';
+        if (hoursLeft > 0) countdownString += `${hoursLeft}h `;
+        if (minutesLeft > 0 || hoursLeft === 0) countdownString += `${minutesLeft}m`;
+
+        const dateString = nextStreamDate.toLocaleDateString('en-US', {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric',
+          timeZone: 'Pacific/Auckland'
+        });
+        const timeString = nextStreamDate.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+          timeZone: 'Pacific/Auckland'
+        });
+
+        return {
+          countdown: countdownString.trim(),
+          date: dateString,
+          time: timeString,
+          nextStreamDate
+        };
+      }
+
+      function getCurrentStreamer() {
+        return streamers.find(s => isStreamerLive(s)) || null;
+      }
+
+      function getNextStreamer() {
+        const nzTime = getNzTime(new Date());
+        const currentHour = nzTime.getHours();
+        const currentDay = nzTime.getDay();
+        let nextStreamer = streamers.find(s => 
+          isStreamingDay(s, nzTime) && s.startHour > currentHour
+        );
+        if (!nextStreamer) {
+          const nextDay = (currentDay + 1) % 7;
+          nextStreamer = streamers.find(s => s.streamingDays.includes(nextDay));
+        }
+        if (!nextStreamer) {
+          let earliestStreamer = streamers[0];
+          let earliestTime = 24 * 7 + 24;
+          streamers.forEach(s => {
+            s.streamingDays.forEach(day => {
+              const dayDiff = (day - currentDay + 7) % 7 || 7;
+              const timeValue = dayDiff * 24 + s.startHour;
+              if (timeValue < earliestTime) {
+                earliestTime = timeValue;
+                earliestStreamer = s;
+              }
+            });
+          });
+          nextStreamer = earliestStreamer;
+        }
+        return nextStreamer;
+      }
+
+      function formatIcsDate(date) {
+        return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      }
+
+      function generateIcsFile(streamer, streamDate) {
+        const startDate = new Date(streamDate);
+        const endDate = new Date(streamDate);
+        endDate.setHours(streamer.endHour, 0, 0, 0);
+        if (endDate < startDate) endDate.setDate(endDate.getDate() + 1);
+
+        const profileUrl = `https://streamschedule.me/#${encodeURIComponent(streamer.id)}`;
+        const icsContent = [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'PRODID:-//StreamSchedule.me//Stream Reminder//EN',
+          'BEGIN:VEVENT',
+          `UID:${streamer.id}-${streamDate.getTime()}@streamschedule.me`,
+          `DTSTAMP:${formatIcsDate(new Date())}`,
+          `DTSTART:${formatIcsDate(startDate)}`,
+          `DTEND:${formatIcsDate(endDate)}`,
+          `SUMMARY:${streamer.name}'s Live Stream`,
+          `DESCRIPTION:Join ${streamer.name} for an epic live stream on Twitch at ${streamer.twitch}! View schedule at ${profileUrl}`,
+          `URL:${profileUrl}`,
+          'BEGIN:VALARM',
+          'TRIGGER:-PT15M',
+          'ACTION:DISPLAY',
+          `DESCRIPTION:Reminder: ${streamer.name}'s stream is starting soon!`,
+          'END:VALARM',
+          'END:VEVENT',
+          'END:VCALENDAR'
+        ].join('\r\n');
+
+        const blob = new Blob([icsContent], { type: 'text/calendar' });
+        return URL.createObjectURL(blob);
+      }
+
+      function getStreams(streamer, limit, daysLimit = Infinity) {
+        const nzTime = getNzTime(new Date());
+        const streams = [];
+        let currentDate = new Date(nzTime);
+        let count = 0;
+        let daysChecked = 0;
+
+        while ((count < limit || limit === Infinity) && daysChecked < daysLimit) {
+          currentDate.setDate(currentDate.getDate() + (daysChecked === 0 ? 0 : 1));
+          if (isStreamingDay(streamer, currentDate)) {
+            const streamDate = new Date(currentDate);
+            streamDate.setHours(streamer.startHour, 0, 0, 0);
+            const endDate = new Date(currentDate);
+            endDate.setHours(streamer.endHour, 0, 0, 0);
+            if (streamDate > nzTime) {
+              streams.push({ start: streamDate, end: endDate });
+              count++;
+            }
+          }
+          daysChecked++;
+          if (daysChecked > 365) break; // Prevent infinite loop
+        }
+
+        return streams;
+      }
+
+      function updateProfile(streamer) {
+        selectedStreamerId = streamer.id;
+        profileImg.src = streamer.avatar;
+        profileImg.alt = `${streamer.name} logo`;
+        profileTitle.textContent = streamer.name;
+        profileDescription.textContent = `Join ${streamer.name} for epic gaming sessions, variety streams, and a vibrant Twitch community!`;
+        twitchButton.href = isStreamerLive(streamer) ? streamer.twitch : streamer.vods;
+        twitchButton.textContent = isStreamerLive(streamer) ? 'Watch on Twitch' : 'Watch VODs';
+        twitchButton.style.background = isStreamerLive(streamer) ? 'var(--live-badge)' : 'var(--twitch-color)';
+        const streamInfo = getNextStreamInfo(streamer);
+        if (isStreamerLive(streamer)) {
+          liveBadge.classList.add('active');
+          liveBadge.href = streamer.twitch;
+          liveBadge.textContent = `Live on Twitch! (${getTimeLeft(streamer)} left)`;
+          scheduleInfo.classList.remove('active');
+        } else {
+          liveBadge.classList.remove('active');
+          scheduleInfo.classList.add('active');
+          scheduleInfo.textContent = streamInfo.countdown;
+        }
+        nextStreamerText.textContent = `The next stream will be live with ${streamer.name} on ${streamInfo.date} at ${streamInfo.time} NZST`;
+        reminderButtons.forEach(button => {
+          button.onclick = () => {
+            let streams;
+            switch (button.dataset.type) {
+              case 'next-1':
+                streams = getStreams(streamer, 1);
+                break;
+              case 'next-7':
+                streams = getStreams(streamer, 7);
+                break;
+              case 'month':
+                streams = getStreams(streamer, Infinity, 30);
+                break;
+            }
+            if (streams.length > 0) {
+              const icsUrl = generateIcsFile(streamer, streams[0].start);
+              const a = document.createElement('a');
+              a.href = icsUrl;
+              a.download = `${streamer.name}_streams_${streams[0].start.toLocaleDateString('en-US').replace(/, /g, '')}.ics`;
+              a.click();
+              URL.revokeObjectURL(icsUrl);
+              showToast(`Added ${streams.length} stream${streams.length > 1 ? 's' : ''} to your calendar!`);
+            } else {
+              showToast('No upcoming streams found for the selected period.');
+            }
+          };
+        });
+      }
+
+      const liveNowLi = document.createElement('li');
+      liveNowLi.dataset.streamerId = 'live-now';
+      liveNowLi.textContent = 'Live Now';
+      liveNowLi.classList.add('live-now');
+      liveNowLi.tabIndex = 0;
+      dropdownItems.appendChild(liveNowLi);
+
+      streamers.forEach(streamer => {
+        const li = document.createElement('li');
+        li.dataset.streamerId = streamer.id;
+        li.textContent = streamer.name;
+        li.tabIndex = 0;
+        dropdownItems.appendChild(li);
+      });
+
+      function toggleDropdown() {
+        const isOpen = dropdownItems.classList.contains('active');
+        dropdownItems.classList.toggle('active');
+        dropdownFace.classList.toggle('active');
+        dropdown.setAttribute('aria-expanded', !isOpen);
+      }
+
+      function closeDropdown() {
+        dropdownItems.classList.remove('active');
+        dropdownFace.classList.remove('active');
+        dropdown.setAttribute('aria-expanded', 'false');
+      }
+
+      dropdownFace.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleDropdown();
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target)) {
+          closeDropdown();
+        }
+      });
+
+      dropdownFace.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleDropdown();
+        }
+      });
+
+      dropdownItems.querySelectorAll('li').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.stopPropagation();
+          let selectedStreamer;
+          if (item.dataset.streamerId === 'live-now') {
+            selectedStreamer = getCurrentStreamer() || getNextStreamer();
+            dropdownText.textContent = 'Live Now';
+            isLiveNowSelected = true;
+          } else {
+            selectedStreamer = streamers.find(s => s.id === item.dataset.streamerId);
+            dropdownText.textContent = item.textContent;
+            isLiveNowSelected = false;
+          }
+          updateProfile(selectedStreamer);
+          closeDropdown();
+        });
+
+        item.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            let selectedStreamer;
+            if (item.dataset.streamerId === 'live-now') {
+              selectedStreamer = getCurrentStreamer() || getNextStreamer();
+              dropdownText.textContent = 'Live Now';
+              isLiveNowSelected = true;
+            } else {
+              selectedStreamer = streamers.find(s => s.id === item.dataset.streamerId);
+              dropdownText.textContent = item.textContent;
+              isLiveNowSelected = false;
+            }
+            updateProfile(selectedStreamer);
+            closeDropdown();
+          }
+        });
+      });
+
+      function init() {
+        let selectedStreamer;
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+          selectedStreamer = streamers.find(s => s.id.toLowerCase() === decodeURIComponent(hash).toLowerCase());
+          if (selectedStreamer) {
+            dropdownText.textContent = selectedStreamer.name;
+            selectedStreamerId = selectedStreamer.id;
+          }
+        }
+        if (!selectedStreamer) {
+          selectedStreamer = getCurrentStreamer() || getNextStreamer();
+          dropdownText.textContent = 'Select Streamer';
+          isLiveNowSelected = false;
+        }
+        updateProfile(selectedStreamer);
+      }
+
+      init();
+
+      window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+          const selectedStreamer = streamers.find(s => s.id.toLowerCase() === decodeURIComponent(hash).toLowerCase());
+          if (selectedStreamer) {
+            dropdownText.textContent = selectedStreamer.name;
+            isLiveNowSelected = false;
+            updateProfile(selectedStreamer);
+          }
+        }
+      });
+
+      setInterval(() => {
+        if (isLiveNowSelected) {
+          const currentStreamer = getCurrentStreamer() || getNextStreamer();
+          updateProfile(currentStreamer);
+        }
+      }, 60000);
+    });
+  </script>
+</body>
+</html>
