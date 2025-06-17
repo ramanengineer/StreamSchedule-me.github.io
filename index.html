@@ -482,6 +482,9 @@
       text-align: left;
       color: var(--text);
       font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .roster-table th {
@@ -524,6 +527,7 @@
     .countdown {
       font-weight: 600;
       color: var(--text);
+      display: block;
     }
 
     .next-stream-info {
@@ -531,6 +535,9 @@
       font-size: 0.95rem;
       color: var(--text-muted);
       margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .roster-twitch-button {
@@ -546,6 +553,8 @@
       transition: all 0.3s ease;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
+      min-height: 44px;
+      min-width: 100px;
     }
 
     .roster-twitch-button:hover {
@@ -570,6 +579,7 @@
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
       cursor: pointer;
+      min-height: 44px;
     }
 
     .add-all-button:hover {
@@ -629,31 +639,83 @@
       .next-streamer-container p { font-size: 1rem; }
       .calendar-button { padding: 10px 20px; font-size: 0.9rem; }
       .roster-container { padding: 16px; }
-      .roster-table th, .roster-table td { font-size: 1rem; padding: 12px 8px; }
-      .roster-twitch-button { padding: 6px 12px; font-size: 0.9rem; }
-      .add-all-button { padding: 10px 20px; font-size: 0.9rem; }
+      .roster-table th, .roster-table td {
+        font-size: 0.95rem;
+        padding: 10px 6px;
+      }
+      .roster-table th {
+        font-size: 0.9rem;
+      }
+      .roster-twitch-button {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        min-height: 36px;
+        min-width: 80px;
+      }
+      .next-stream-info {
+        font-size: 0.85rem;
+      }
+      .add-all-button { padding: 10px 20px; font-size: 0.9rem; min-height: 36px; }
     }
 
     @media (max-width: 480px) {
-      .streamer-select { max-width: 320px; }
-      .dropdown__face { padding: 0.8rem 1.2rem; font-size: clamp(0.9rem, 2vw, 1rem); }
-      .dropdown__items { padding: 0.7rem; }
+      body { padding: 8px; }
+      .intro h1 { font-size: clamp(1.8rem, 4vw, 2.2rem); }
+      .intro p { font-size: clamp(0.9rem, 2vw, 1rem); }
+      .streamer-select { max-width: 100%; }
+      .dropdown__face { padding: 0.8rem 1rem; font-size: clamp(0.9rem, 2vw, 1rem); }
+      .dropdown__items { padding: 0.6rem; }
       .dropdown__items li { font-size: clamp(0.85rem, 2vw, 0.95rem); }
       .profile { padding: 20px; }
       .profile img { width: 160px; height: 160px; }
       .profile h2 { font-size: 1.7rem; }
       .profile p { font-size: 0.95rem; }
-      .twitch-button { padding: 10px 28px; font-size: 0.95rem; }
+      .twitch-button { padding: 10px 24px; font-size: 0.95rem; }
       .reminder-button { padding: 8px 16px; font-size: 0.85rem; }
       .next-streamer-container { padding: 12px; }
       .next-streamer-container h3 { font-size: 1.2rem; }
       .next-streamer-container p { font-size: 0.9rem; }
       .calendar-button { padding: 8px 16px; font-size: 0.85rem; }
       .roster-container { padding: 12px; }
-      .roster-table th, .roster-table td { font-size: 0.9rem; padding: 8px 6px; }
-      .roster-table th:nth-child(3), .roster-table td:nth-child(3) { display: none; }
-      .roster-twitch-button { padding: 5px 10px; font-size: 0.85rem; }
-      .add-all-button { padding: 8px 16px; font-size: 0.85rem; }
+      .roster-table {
+        font-size: 0.9rem;
+        display: table;
+        table-layout: auto;
+      }
+      .roster-table th, .roster-table td {
+        padding: 8px 4px;
+        font-size: 0.85rem;
+        min-width: 80px;
+      }
+      .roster-table th {
+        font-size: 0.8rem;
+      }
+      .roster-table td:first-child {
+        max-width: 120px;
+      }
+      .roster-table td:nth-child(2) {
+        max-width: 100px;
+      }
+      .roster-table td:nth-child(3) {
+        max-width: 140px;
+      }
+      .roster-twitch-button {
+        padding: 5px 8px;
+        font-size: 0.8rem;
+        min-height: 32px;
+        min-width: 70px;
+      }
+      .countdown, .next-stream-info {
+        font-size: 0.8rem;
+        white-space: normal;
+        line-height: 1.2;
+      }
+      .live-indicator {
+        width: 8px;
+        height: 8px;
+        margin-right: 4px;
+      }
+      .add-all-button { padding: 8px 16px; font-size: 0.85rem; min-height: 32px; }
     }
   </style>
 </head>
