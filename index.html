@@ -454,6 +454,84 @@
       box-shadow: var(--glow);
     }
 
+    .roster-container {
+      margin: 24px 0;
+      width: 100%;
+      max-width: 900px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+    }
+
+    .roster-container h2 {
+      font-size: 1.8rem;
+      color: var(--text);
+      margin-bottom: 16px;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .roster-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .roster-table th,
+    .roster-table td {
+      padding: 12px;
+      text-align: left;
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .roster-table th {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .roster-table tr {
+      border-bottom: 1px solid var(--glass-border);
+      transition: background 0.3s ease;
+    }
+
+    .roster-table tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .roster-table img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: transparent;
+      border: 1px solid var(--glass-border);
+    }
+
+    .add-all-button {
+      display: block;
+      margin: 20px auto 0;
+      background: var(--calendar-button);
+      border-radius: 12px;
+      padding: 12px 24px;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+
+    .add-all-button:hover {
+      background: var(--calendar-button-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--glow);
+    }
+
     .toast {
       position: fixed;
       bottom: 20px;
@@ -504,6 +582,10 @@
       .next-streamer-container h3 { font-size: 1.3rem; }
       .next-streamer-container p { font-size: 1rem; }
       .calendar-button { padding: 10px 20px; font-size: 0.9rem; }
+      .roster-container { padding: 16px; }
+      .roster-table th, .roster-table td { font-size: 0.9rem; padding: 10px; }
+      .roster-table img { width: 50px; height: 50px; }
+      .add-all-button { padding: 10px 20px; font-size: 0.9rem; }
     }
 
     @media (max-width: 480px) {
@@ -521,6 +603,10 @@
       .next-streamer-container h3 { font-size: 1.2rem; }
       .next-streamer-container p { font-size: 0.9rem; }
       .calendar-button { padding: 8px 16px; font-size: 0.85rem; }
+      .roster-container { padding: 12px; }
+      .roster-table th, .roster-table td { font-size: 0.85rem; padding: 8px; }
+      .roster-table img { width: 40px; height: 40px; }
+      .add-all-button { padding: 8px 16px; font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -559,6 +645,23 @@
           <button class="reminder-button" data-type="month"><i class="fas fa-bell"></i> Add the next month's streams to my calendar</button>
         </div>
       </div>
+    </div>
+    <div class="roster-container">
+      <h2>Full Roster</h2>
+      <table class="roster-table" id="roster-table">
+        <thead>
+          <tr>
+            <th>Streamer</th>
+            <th>Profile</th>
+            <th>Next Stream</th>
+            <th>Time (NZST)</th>
+          </tr>
+        </thead>
+        <tbody id="roster-table-body">
+          <!-- Table rows will be populated by JavaScript -->
+        </tbody>
+      </table>
+      <button class="add-all-button" id="add-all-button"><i class="fas fa-bell"></i> Add All Next Streams to Calendar</button>
     </div>
   </div>
   <script>
@@ -729,6 +832,8 @@
       const nextStreamerText = document.getElementById('next-streamer-text');
       const reminderButtons = document.querySelectorAll('.reminder-button');
       const dropdown = document.querySelector('.dropdown');
+      const rosterTableBody = document.getElementById('roster-table-body');
+      const addAllButton = document.getElementById('add-all-button');
 
       let selectedStreamerId = null;
       let isLiveNowSelected = false;
@@ -898,6 +1003,42 @@
         return URL.createObjectURL(blob);
       }
 
+      function generateCombinedIcsFile(streamersStreams) {
+        if (!streamersStreams.length) return null;
+        const icsContent = [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'PRODID:-//StreamSchedule.me//Stream Reminder//EN'
+        ];
+
+        streamersStreams.forEach(({ streamer, stream }, index) => {
+          const startDate = new Date(stream.start);
+          const endDate = new Date(stream.end);
+          const profileUrl = `https://streamschedule.me/#${encodeURIComponent(streamer.id)}`;
+          icsContent.push(
+            'BEGIN:VEVENT',
+            `UID:${streamer.id}-${stream.start.getTime()}-${index}@streamschedule.me`,
+            `DTSTAMP:${formatIcsDate(new Date())}`,
+            `DTSTART:${formatIcsDate(startDate)}`,
+            `DTEND:${formatIcsDate(endDate)}`,
+            `SUMMARY:${streamer.name}'s Live Stream`,
+            `DESCRIPTION:Join ${streamer.name} for an epic live stream on Twitch at ${streamer.twitch}! View schedule at ${profileUrl}`,
+            `URL:${profileUrl}`,
+            'BEGIN:VALARM',
+            'TRIGGER:-PT15M',
+            'ACTION:DISPLAY',
+            `DESCRIPTION:Reminder: ${streamer.name}'s stream is starting soon!`,
+            'END:VALARM',
+            'END:VEVENT'
+          );
+        });
+
+        icsContent.push('END:VCALENDAR');
+
+        const blob = new Blob([icsContent.join('\r\n')], { type: 'text/calendar' });
+        return URL.createObjectURL(blob);
+      }
+
       function getStreams(streamer, limit, daysLimit = Infinity) {
         const nzTime = getNzTime(new Date());
         const streams = [];
@@ -922,6 +1063,22 @@
         }
 
         return streams;
+      }
+
+      function populateRosterTable() {
+        rosterTableBody.innerHTML = '';
+        streamers.forEach(streamer => {
+          const streamInfo = getNextStreamInfo(streamer);
+          const isLive = isStreamerLive(streamer);
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${streamer.name}</td>
+            <td><img src="${streamer.avatar}" alt="${streamer.name} logo" loading="lazy"></td>
+            <td>${isLive ? 'Live Now' : streamInfo.date}</td>
+            <td>${isLive ? getTimeLeft(streamer) + ' left' : streamInfo.time}</td>
+          `;
+          rosterTableBody.appendChild(row);
+        });
       }
 
       function updateProfile(streamer) {
@@ -985,6 +1142,34 @@
         } catch (e) {
           console.warn('Unable to update URL hash:', e.message);
         }
+      }
+
+      function initRoster() {
+        populateRosterTable();
+        addAllButton.onclick = () => {
+          const streamersStreams = [];
+          streamers.forEach(streamer => {
+            const streams = getStreams(streamer, 1);
+            if (streams.length > 0) {
+              streamersStreams.push({ streamer, stream: streams[0] });
+            }
+          });
+          if (streamersStreams.length > 0) {
+            const icsUrl = generateCombinedIcsFile(streamersStreams);
+            if (icsUrl) {
+              const a = document.createElement('a');
+              a.href = icsUrl;
+              a.download = `all_streamers_next_streams_${new Date().toLocaleDateString('en-US').replace(/, /g, '')}.ics`;
+              a.click();
+              URL.revokeObjectURL(icsUrl);
+              showToast(`Added ${streamersStreams.length} next streams to your calendar!`);
+            } else {
+              showToast('Error generating calendar file.');
+            }
+          } else {
+            showToast('No upcoming streams found.');
+          }
+        };
       }
 
       const liveNowLi = document.createElement('li');
@@ -1129,6 +1314,7 @@
           }
         }
         updateProfile(selectedStreamer);
+        initRoster();
       }
 
       init();
@@ -1152,6 +1338,7 @@
           const currentStreamer = getCurrentStreamer();
           updateProfile(currentStreamer);
         }
+        populateRosterTable();
       }, 60000);
     });
   </script>
