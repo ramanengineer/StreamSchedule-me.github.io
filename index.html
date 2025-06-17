@@ -62,7 +62,7 @@
     }
 
     a { color: var(--text); text-decoration: none; }
-    a:hover { text-decoration: none; }
+    a:hover { text-decoration: underline; }
     h1, h2, h3 { font-weight: 700; text-align: center; }
 
     .container {
@@ -124,7 +124,6 @@
       transition: all 0.3s ease;
       backdrop-filter: blur(12px);
       box-shadow: var(--shadow);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     .dropdown__face:hover, .dropdown__face:focus {
@@ -194,7 +193,6 @@
       font-size: clamp(1rem, 2.5vw, 1.1rem);
       font-weight: 600;
       color: var(--text);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     .dropdown__items li:hover, .dropdown__items li:focus {
@@ -264,7 +262,6 @@
       transition: all 0.3s ease;
       box-shadow: var(--shadow);
       position: relative;
-      overflow: hidden;
     }
 
     .live-badge.active {
@@ -476,19 +473,23 @@
     .roster-table {
       width: 100%;
       border-collapse: collapse;
+      font-size: 1.1rem;
     }
 
     .roster-table th,
     .roster-table td {
-      padding: 12px;
+      padding: 16px 12px;
       text-align: left;
-      color: var(--text-muted);
-      font-size: 1rem;
+      color: var(--text);
+      font-weight: 500;
     }
 
     .roster-table th {
-      color: var(--text);
-      font-weight: 600;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.05);
+      text-transform: uppercase;
+      font-size: 1rem;
+      color: var(--text-muted);
     }
 
     .roster-table tr {
@@ -497,16 +498,61 @@
     }
 
     .roster-table tr:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.1);
     }
 
-    .roster-table img {
-      width: 60px;
-      height: 60px;
+    .roster-table .live-now {
+      background: var(--live-badge);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .roster-table .live-now:hover {
+      background: var(--live-badge-hover);
+    }
+
+    .live-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--text);
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: flash 1.5s infinite ease-in-out;
+    }
+
+    .countdown {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .next-stream-info {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .roster-twitch-button {
+      background: var(--live-badge);
       border-radius: 8px;
-      object-fit: cover;
-      background: transparent;
+      padding: 8px 16px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
       border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+    }
+
+    .roster-twitch-button:hover {
+      background: var(--live-badge-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
+      text-decoration: none;
     }
 
     .add-all-button {
@@ -583,8 +629,8 @@
       .next-streamer-container p { font-size: 1rem; }
       .calendar-button { padding: 10px 20px; font-size: 0.9rem; }
       .roster-container { padding: 16px; }
-      .roster-table th, .roster-table td { font-size: 0.9rem; padding: 10px; }
-      .roster-table img { width: 50px; height: 50px; }
+      .roster-table th, .roster-table td { font-size: 1rem; padding: 12px 8px; }
+      .roster-twitch-button { padding: 6px 12px; font-size: 0.9rem; }
       .add-all-button { padding: 10px 20px; font-size: 0.9rem; }
     }
 
@@ -604,8 +650,9 @@
       .next-streamer-container p { font-size: 0.9rem; }
       .calendar-button { padding: 8px 16px; font-size: 0.85rem; }
       .roster-container { padding: 12px; }
-      .roster-table th, .roster-table td { font-size: 0.85rem; padding: 8px; }
-      .roster-table img { width: 40px; height: 40px; }
+      .roster-table th, .roster-table td { font-size: 0.9rem; padding: 8px 6px; }
+      .roster-table th:nth-child(3), .roster-table td:nth-child(3) { display: none; }
+      .roster-twitch-button { padding: 5px 10px; font-size: 0.85rem; }
       .add-all-button { padding: 8px 16px; font-size: 0.85rem; }
     }
   </style>
@@ -647,14 +694,13 @@
       </div>
     </div>
     <div class="roster-container">
-      <h2>Full Roster</h2>
+      <h2>Streamer Roster</h2>
       <table class="roster-table" id="roster-table">
         <thead>
           <tr>
             <th>Streamer</th>
-            <th>Profile</th>
+            <th>Status</th>
             <th>Next Stream</th>
-            <th>Time (NZST)</th>
           </tr>
         </thead>
         <tbody id="roster-table-body">
@@ -884,7 +930,12 @@
         let nextDay = currentDay;
         let daysToAdd = 0;
 
-        let startOffset = isStreamerLive(streamer) ? 1 : 0;
+        // Check if the streamer's stream for today has already ended
+        const isTodayStreamingDay = isStreamingDay(streamer, nzTime);
+        const hasStreamEndedToday = isTodayStreamingDay && currentHour >= streamer.endHour;
+
+        // Start from the next possible stream (skip today if stream has ended)
+        let startOffset = hasStreamEndedToday || isStreamerLive(streamer) ? 1 : 0;
         for (let i = startOffset; i <= 7 + startOffset; i++) {
           nextDay = (currentDay + i) % 7;
           if (streamer.streamingDays.includes(nextDay)) {
@@ -897,7 +948,8 @@
         nextStreamDate.setDate(nzTime.getDate() + daysToAdd);
         nextStreamDate.setHours(streamer.startHour, 0, 0, 0);
 
-        if (isStreamingDay(streamer, nzTime) && !isStreamerLive(streamer) && currentHour < streamer.startHour && !startOffset) {
+        // If today is a streaming day, stream hasn't ended, and hasn't started yet, use today's stream
+        if (isTodayStreamingDay && !hasStreamEndedToday && !isStreamerLive(streamer) && currentHour < streamer.startHour) {
           nextStreamDate.setDate(nzTime.getDate());
           nextStreamDate.setHours(streamer.startHour, 0, 0, 0);
         }
@@ -905,14 +957,17 @@
         const timeDiffMs = nextStreamDate - nzTime;
         const hoursLeft = Math.floor(timeDiffMs / (1000 * 60 * 60));
         const minutesLeft = Math.floor((timeDiffMs % (1000 * 60 * 60)) / (1000 * 60));
-        let countdownString = 'Next stream in: ';
+        let countdownString = '';
         if (hoursLeft > 0) countdownString += `${hoursLeft}h `;
         if (minutesLeft > 0 || hoursLeft === 0) countdownString += `${minutesLeft}m`;
 
         const dateString = nextStreamDate.toLocaleDateString('en-US', {
-          weekday: 'short',
           month: 'short',
           day: 'numeric',
+          timeZone: 'Pacific/Auckland'
+        });
+        const dayString = nextStreamDate.toLocaleDateString('en-US', {
+          weekday: 'short',
           timeZone: 'Pacific/Auckland'
         });
         const timeString = nextStreamDate.toLocaleTimeString('en-US', {
@@ -925,6 +980,7 @@
         return {
           countdown: countdownString.trim(),
           date: dateString,
+          day: dayString,
           time: timeString,
           nextStreamDate
         };
@@ -1046,8 +1102,15 @@
         let count = 0;
         let daysChecked = 0;
 
+        // Skip today if the stream has already ended
+        const isTodayStreamingDay = isStreamingDay(streamer, nzTime);
+        const hasStreamEndedToday = isTodayStreamingDay && nzTime.getHours() >= streamer.endHour;
+        if (hasStreamEndedToday) {
+          currentDate.setDate(currentDate.getDate() + 1);
+          daysChecked = 1;
+        }
+
         while ((count < limit || limit === Infinity) && daysChecked < daysLimit) {
-          currentDate.setDate(currentDate.getDate() + (daysChecked === 0 ? 0 : 1));
           if (isStreamingDay(streamer, currentDate)) {
             const streamDate = new Date(currentDate);
             streamDate.setHours(streamer.startHour, 0, 0, 0);
@@ -1058,6 +1121,7 @@
               count++;
             }
           }
+          currentDate.setDate(currentDate.getDate() + 1);
           daysChecked++;
           if (daysChecked > 365) break;
         }
@@ -1066,18 +1130,63 @@
       }
 
       function populateRosterTable() {
-        rosterTableBody.innerHTML = '';
-        streamers.forEach(streamer => {
-          const streamInfo = getNextStreamInfo(streamer);
+        const streamerData = streamers.map(streamer => {
           const isLive = isStreamerLive(streamer);
+          const streamInfo = getNextStreamInfo(streamer);
+          return {
+            streamer,
+            isLive,
+            nextStreamDate: isLive ? new Date(0) : streamInfo.nextStreamDate,
+            streamInfo
+          };
+        });
+
+        streamerData.sort((a, b) => {
+          if (a.isLive && !b.isLive) return -1;
+          if (!a.isLive && b.isLive) return 1;
+          return a.nextStreamDate - b.nextStreamDate;
+        });
+
+        rosterTableBody.innerHTML = '';
+        streamerData.forEach(({ streamer, isLive, streamInfo }) => {
           const row = document.createElement('tr');
+          if (isLive) row.classList.add('live-now');
           row.innerHTML = `
-            <td>${streamer.name}</td>
-            <td><img src="${streamer.avatar}" alt="${streamer.name} logo" loading="lazy"></td>
-            <td>${isLive ? 'Live Now' : streamInfo.date}</td>
-            <td>${isLive ? getTimeLeft(streamer) + ' left' : streamInfo.time}</td>
+            <td><a href="${streamer.twitch}" target="_blank">${streamer.name}</a></td>
+            <td>${isLive ? '<span class="live-indicator"></span>Live Now' : 'Offline'}</td>
+            <td>
+              ${isLive ? 
+                `<a href="${streamer.twitch}" target="_blank" class="roster-twitch-button"><i class="fab fa-twitch"></i> Watch Live</a>` :
+                `<span class="countdown">In ${streamInfo.countdown}</span>
+                 <span class="next-stream-info">${streamInfo.day}, ${streamInfo.date} at ${streamInfo.time}</span>`
+              }
+            </td>
           `;
           rosterTableBody.appendChild(row);
+        });
+      }
+
+      function updateRosterTable() {
+        const rows = rosterTableBody.querySelectorAll('tr');
+        rows.forEach(row => {
+          const streamerName = row.querySelector('td:first-child a').textContent;
+          const streamer = streamers.find(s => s.name === streamerName);
+          const isLive = isStreamerLive(streamer);
+          const streamInfo = getNextStreamInfo(streamer);
+          const statusCell = row.querySelector('td:nth-child(2)');
+          const nextStreamCell = row.querySelector('td:nth-child(3)');
+          if (isLive) {
+            row.classList.add('live-now');
+            statusCell.innerHTML = '<span class="live-indicator"></span>Live Now';
+            nextStreamCell.innerHTML = `<a href="${streamer.twitch}" target="_blank" class="roster-twitch-button"><i class="fab fa-twitch"></i> Watch Live</a>`;
+          } else {
+            row.classList.remove('live-now');
+            statusCell.textContent = 'Offline';
+            nextStreamCell.innerHTML = `
+              <span class="countdown">In ${streamInfo.countdown}</span>
+              <span class="next-stream-info">${streamInfo.day}, ${streamInfo.date} at ${streamInfo.time}</span>
+            `;
+          }
         });
       }
 
@@ -1103,9 +1212,9 @@
         } else {
           liveBadge.classList.remove('active');
           scheduleInfo.classList.add('active');
-          scheduleInfo.textContent = streamInfo.countdown;
+          scheduleInfo.textContent = `Next stream in: ${streamInfo.countdown}`;
         }
-        nextStreamerText.textContent = `The next stream will be live with ${streamer.name} on ${streamInfo.date} at ${streamInfo.time} NZST`;
+        nextStreamerText.textContent = `The next stream will be live with ${streamer.name} on ${streamInfo.day}, ${streamInfo.date} at ${streamInfo.time} NZST`;
         reminderButtons.forEach(button => {
           button.onclick = () => {
             let streams;
@@ -1170,6 +1279,10 @@
             showToast('No upcoming streams found.');
           }
         };
+        setInterval(() => {
+          updateRosterTable();
+          populateRosterTable();
+        }, 1000);
       }
 
       const liveNowLi = document.createElement('li');
@@ -1338,7 +1451,6 @@
           const currentStreamer = getCurrentStreamer();
           updateProfile(currentStreamer);
         }
-        populateRosterTable();
       }, 60000);
     });
   </script>
