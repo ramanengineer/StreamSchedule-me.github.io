@@ -23,23 +23,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #1e1e2e;
-      --bg-accent: #2a2a3a;
-      --text: #f5f5fa;
-      --text-muted: #c5c5d5;
-      --button: #5865f2;
-      --button-hover: #4752c4;
-      --streamer-button: #ff007b;
-      --streamer-button-hover: #cc0062;
-      --live-badge: #ff0000;
-      --live-badge-hover: #cc0000;
-      --calendar-button: #4caf50;
-      --calendar-button-hover: #388e3c;
-      --twitch-color: #9146ff;
-      --glass-bg: rgba(30, 30, 46, 0.85);
-      --glass-border: rgba(255, 255, 255, 0.2);
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      --glow: 0 0 12px rgba(88, 101, 242, 0.6);
+      --bg-dark: #1a1a2e;
+      --bg-accent: #25253b;
+      --text: #e6e6fa;
+      --text-muted: #b0b0cc;
+      --button: #5b5bd6;
+      --button-hover: #4a4ab2;
+      --streamer-button: #ff2a8c;
+      --streamer-button-hover: #d61f74;
+      --live-badge: #e63946;
+      --live-badge-hover: #cc2e3b;
+      --calendar-button: #2ecc71;
+      --calendar-button-hover: #27ae60;
+      --twitch-color: #8e44ad;
+      --twitch-color-hover: #783994;
+      --glass-bg: rgba(30, 30, 46, 0.9);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+      --glow: 0 0 10px rgba(91, 91, 214, 0.5);
     }
 
     * {
@@ -56,52 +57,52 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px;
+      padding: 20px;
       font-size: 16px;
       overflow-x: hidden;
     }
 
     a { color: var(--text); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a:hover { color: var(--button-hover); }
     h1, h2, h3 { font-weight: 700; text-align: center; }
 
     .container {
-      max-width: 900px;
+      max-width: 960px;
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      animation: fadeIn 1.2s ease-out;
+      animation: fadeIn 1s ease-out;
     }
 
     .intro {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
       background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      padding: 16px;
-      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      padding: 24px;
+      border-radius: 12px;
       border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
     }
 
     .intro h1 {
-      font-size: clamp(2.5rem, 6vw, 3rem);
+      font-size: clamp(2.2rem, 5vw, 2.8rem);
       color: var(--text);
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-      margin-bottom: 12px;
-      animation: pulse 3s infinite ease-in-out;
+      margin-bottom: 16px;
     }
 
     .intro p {
-      font-size: clamp(1.1rem, 2.5vw, 1.2rem);
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
       color: var(--text-muted);
-      max-width: 600px;
+      max-width: 700px;
+      line-height: 1.6;
     }
 
     .streamer-select {
-      margin-bottom: 24px;
+      margin-bottom: 32px;
       width: 100%;
-      max-width: 450px;
+      max-width: 500px;
     }
 
     .dropdown {
@@ -111,24 +112,24 @@
 
     .dropdown__face {
       background: var(--glass-bg);
-      padding: 1.2rem 1.8rem;
-      border-radius: 16px;
+      padding: 16px 24px;
+      border-radius: 12px;
       border: 1px solid var(--glass-border);
       color: var(--text);
-      font-size: clamp(1.1rem, 3vw, 1.3rem);
-      font-weight: 700;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 600;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(12px);
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
       box-shadow: var(--shadow);
     }
 
     .dropdown__face:hover, .dropdown__face:focus {
-      background: var(--button-hover);
-      transform: translateY(-2px);
+      background: var(--button);
+      transform: translateY(-1px);
       box-shadow: var(--glow);
     }
 
@@ -140,20 +141,20 @@
     .dropdown__items {
       position: absolute;
       left: 0;
-      top: calc(100% + 0.5rem);
+      top: calc(100% + 8px);
       width: 100%;
       list-style: none;
       display: none;
       flex-direction: column;
-      gap: 0.6rem;
-      z-index: 150;
+      gap: 8px;
+      z-index: 200;
       background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      padding: 1rem;
-      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      padding: 16px;
+      border-radius: 12px;
       border: 1px solid var(--glass-border);
       animation: slideDown 0.3s ease-in-out;
-      max-height: 60vh;
+      max-height: 50vh;
       overflow-y: auto;
       box-shadow: var(--shadow);
     }
@@ -163,17 +164,17 @@
     }
 
     .dropdown__items::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
     }
 
     .dropdown__items::-webkit-scrollbar-track {
       background: var(--bg-dark);
-      border-radius: 5px;
+      border-radius: 4px;
     }
 
     .dropdown__items::-webkit-scrollbar-thumb {
       background: var(--streamer-button);
-      border-radius: 5px;
+      border-radius: 4px;
     }
 
     .dropdown__items::-webkit-scrollbar-thumb:hover {
@@ -181,32 +182,29 @@
     }
 
     @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-0.5rem); }
+      from { opacity: 0; transform: translateY(-8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .dropdown__items li {
-      padding: 0.9rem 1.2rem;
+      padding: 12px 16px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      border-radius: 12px;
-      font-size: clamp(1rem, 2.5vw, 1.1rem);
-      font-weight: 600;
+      transition: all 0.2s ease;
+      border-radius: 8px;
+      font-size: clamp(0.95rem, 2vw, 1rem);
+      font-weight: 500;
       color: var(--text);
     }
 
     .dropdown__items li:hover, .dropdown__items li:focus {
-      background: var(--button-hover);
+      background: var(--button);
       color: var(--text);
-      box-shadow: var(--glow);
-      transform: translateX(4px);
+      transform: translateX(2px);
     }
 
     .dropdown__items li.live-now {
       background: var(--live-badge);
-      color: var(--text);
-      font-weight: 700;
-      position: relative;
+      font-weight: 600;
     }
 
     .dropdown__items li.live-now:hover, .dropdown__items li.live-now:focus {
@@ -219,8 +217,8 @@
       top: 50%;
       left: 8px;
       transform: translateY(-50%);
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       background: var(--text);
       border-radius: 50%;
       animation: flash 1.5s infinite ease-in-out;
@@ -228,16 +226,16 @@
 
     @keyframes flash {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+      50% { opacity: 0.3; }
     }
 
     .dropdown__arrow {
       border-bottom: 2px solid var(--text);
       border-right: 2px solid var(--text);
-      width: 0.8rem;
-      height: 0.8rem;
+      width: 10px;
+      height: 10px;
       transform: rotate(45deg);
-      transition: transform 0.3s ease;
+      transition: transform 0.2s ease;
     }
 
     .dropdown__face.active .dropdown__arrow {
@@ -245,23 +243,24 @@
     }
 
     .status-container {
-      margin-bottom: 16px;
+      margin-bottom: 24px;
       text-align: center;
       width: 100%;
-      max-width: 600px;
+      max-width: 700px;
     }
 
     .live-badge {
       background: var(--live-badge);
       color: var(--text);
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 0.9rem;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
       font-weight: 600;
       display: none;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       box-shadow: var(--shadow);
       position: relative;
+      text-decoration: none;
     }
 
     .live-badge.active {
@@ -277,10 +276,10 @@
       content: '';
       position: absolute;
       top: 50%;
-      left: 8px;
+      left: 10px;
       transform: translateY(-50%);
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       background: var(--text);
       border-radius: 50%;
       animation: flash 1.5s infinite ease-in-out;
@@ -289,12 +288,12 @@
     .schedule-info {
       background: var(--glass-bg);
       color: var(--text-muted);
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
       display: none;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       box-shadow: var(--shadow);
     }
 
@@ -307,201 +306,197 @@
       flex-direction: column;
       align-items: center;
       background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 600px;
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 700px;
       width: 100%;
-      transition: transform 0.4s ease;
+      transition: transform 0.3s ease;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
     }
 
     .profile:hover {
-      transform: translateY(-8px);
+      transform: translateY(-4px);
     }
 
     .profile img {
-      width: 240px;
-      height: 240px;
-      border-radius: 20px;
+      width: 200px;
+      height: 200px;
+      border-radius: 16px;
       object-fit: cover;
-      margin-bottom: 20px;
-      transition: transform 0.4s ease;
+      margin-bottom: 24px;
+      transition: transform 0.3s ease;
     }
 
     .profile img:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     .profile h2 {
-      font-size: 2.3rem;
+      font-size: clamp(1.8rem, 4vw, 2.2rem);
       color: var(--text);
-      margin-bottom: 12px;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      margin-bottom: 16px;
     }
 
     .profile p {
-      font-size: 1.15rem;
+      font-size: clamp(0.95rem, 2vw, 1rem);
       color: var(--text-muted);
       text-align: center;
-      margin-bottom: 20px;
-      max-width: 500px;
+      margin-bottom: 24px;
+      line-height: 1.6;
     }
 
     .twitch-button {
       background: var(--twitch-color);
-      border-radius: 12px;
-      padding: 14px 36px;
-      color: var(--text);
-      font-size: 1.15rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-    }
-
-    .twitch-button:hover {
-      background: #7a3ed6;
-      transform: translateY(-4px);
-      box-shadow: var(--glow);
-    }
-
-    .next-streamer-container {
-      margin-top: 24px;
-      text-align: center;
-      background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid var(--glass-border);
-      width: 100%;
-      max-width: 600px;
-      box-shadow: var(--shadow);
-    }
-
-    .next-streamer-container h3 {
-      font-size: 1.5rem;
-      color: var(--text);
-      margin-bottom: 12px;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-    }
-
-    .next-streamer-container p {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-
-    .calendar-button {
-      background: var(--calendar-button);
-      border-radius: 12px;
-      padding: 12px 24px;
+      border-radius: 8px;
+      padding: 12px 32px;
       color: var(--text);
       font-size: 1rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
+      text-decoration: none;
+    }
+
+    .twitch-button:hover {
+      background: var(--twitch-color-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
+    }
+
+    .next-streamer-container {
+      margin-top: 32px;
+      text-align: center;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      width: 100%;
+      max-width: 700px;
+      box-shadow: var(--shadow);
+    }
+
+    .next-streamer-container h3 {
+      font-size: clamp(1.3rem, 3vw, 1.5rem);
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .next-streamer-container p {
+      font-size: clamp(0.95rem, 2vw, 1rem);
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .calendar-button {
+      background: var(--calendar-button);
+      border-radius: 8px;
+      padding: 12px 24px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      text-decoration: none;
     }
 
     .calendar-button:hover {
       background: var(--calendar-button-hover);
-      transform: translateY(-4px);
+      transform: translateY(-2px);
       box-shadow: var(--glow);
     }
 
     .reminder-buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 16px;
       justify-content: center;
-      margin-top: 20px;
+      margin-top: 24px;
     }
 
     .reminder-button {
       background: var(--calendar-button);
-      border-radius: 12px;
+      border-radius: 8px;
       padding: 12px 24px;
       color: var(--text);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
       width: 100%;
+      max-width: 300px;
       text-align: center;
+      cursor: pointer;
     }
 
     .reminder-button:hover {
       background: var(--calendar-button-hover);
-      transform: translateY(-4px);
+      transform: translateY(-2px);
       box-shadow: var(--glow);
     }
 
     .roster-container {
-      margin: 24px 0;
+      margin: 32px 0;
       width: 100%;
-      max-width: 900px;
+      max-width: 960px;
       background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      padding: 20px;
-      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      padding: 24px;
+      border-radius: 12px;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
     }
 
     .roster-container h2 {
-      font-size: 1.8rem;
+      font-size: clamp(1.5rem, 3vw, 1.8rem);
       color: var(--text);
-      margin-bottom: 16px;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      margin-bottom: 20px;
     }
 
     .roster-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 1.1rem;
+      font-size: clamp(0.95rem, 2vw, 1rem);
     }
 
     .roster-table th,
     .roster-table td {
-      padding: 16px 12px;
+      padding: 12px 16px;
       text-align: left;
       color: var(--text);
       font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .roster-table th {
-      font-weight: 700;
+      font-weight: 600;
       background: rgba(255, 255, 255, 0.05);
       text-transform: uppercase;
-      font-size: 1rem;
+      font-size: clamp(0.85rem, 2vw, 0.9rem);
       color: var(--text-muted);
     }
 
     .roster-table tr {
       border-bottom: 1px solid var(--glass-border);
-      transition: background 0.3s ease;
+      transition: background 0.2s ease;
     }
 
     .roster-table tr:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .roster-table .live-now {
@@ -516,8 +511,8 @@
 
     .live-indicator {
       display: inline-block;
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       background: var(--text);
       border-radius: 50%;
       margin-right: 8px;
@@ -532,12 +527,9 @@
 
     .next-stream-info {
       display: block;
-      font-size: 0.95rem;
+      font-size: clamp(0.85rem, 2vw, 0.9rem);
       color: var(--text-muted);
       margin-top: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .roster-twitch-button {
@@ -545,176 +537,133 @@
       border-radius: 8px;
       padding: 8px 16px;
       color: var(--text);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
-      min-height: 44px;
-      min-width: 100px;
+      min-height: 36px;
+      text-decoration: none;
     }
 
     .roster-twitch-button:hover {
       background: var(--live-badge-hover);
       transform: translateY(-2px);
       box-shadow: var(--glow);
-      text-decoration: none;
     }
 
     .add-all-button {
       display: block;
-      margin: 20px auto 0;
+      margin: 24px auto 0;
       background: var(--calendar-button);
-      border-radius: 12px;
+      border-radius: 8px;
       padding: 12px 24px;
       color: var(--text);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       text-align: center;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
       cursor: pointer;
-      min-height: 44px;
+      min-height: 40px;
     }
 
     .add-all-button:hover {
       background: var(--calendar-button-hover);
-      transform: translateY(-4px);
+      transform: translateY(-2px);
       box-shadow: var(--glow);
     }
 
     .toast {
       position: fixed;
-      bottom: 20px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
       background: var(--glass-bg);
       color: var(--text);
       padding: 12px 24px;
-      border-radius: 12px;
+      border-radius: 8px;
       box-shadow: var(--shadow);
       z-index: 1000;
       opacity: 0;
       backdrop-filter: blur(10px);
       border: 1px solid var(--glass-border);
       transition: all 0.3s ease;
+      font-size: 0.95rem;
     }
 
     .toast.show {
       opacity: 1;
-      transform: translateX(-50%) translateY(-10px);
+      transform: translateX(-50%) translateY(-8px);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-    }
-
     @media (max-width: 768px) {
-      body { padding: 12px; }
-      .intro h1 { font-size: clamp(2rem, 5vw, 2.5rem); }
-      .intro p { font-size: clamp(1rem, 2vw, 1.1rem); }
-      .streamer-select { max-width: 400px; }
-      .dropdown__face { padding: 1rem 1.5rem; font-size: clamp(1rem, 2.5vw, 1.1rem); }
-      .dropdown__items { padding: 0.8rem; }
-      .dropdown__items li { font-size: clamp(0.9rem, 2vw, 1rem); }
-      .profile { padding: 28px; }
-      .profile img { width: 200px; height: 200px; }
-      .profile h2 { font-size: 2rem; }
-      .profile p { font-size: 1.05rem; }
-      .twitch-button { padding: 12px 32px; font-size: 1rem; }
+      body { padding: 16px; }
+      .intro { padding: 20px; }
+      .intro h1 { font-size: clamp(1.8rem, 4vw, 2.2rem); }
+      .intro p { font-size: clamp(0.95rem, 2vw, 1rem); }
+      .streamer-select { max-width: 100%; }
+      .dropdown__face { padding: 12px 20px; font-size: clamp(0.95rem, 2vw, 1rem); }
+      .dropdown__items { padding: 12px; }
+      .dropdown__items li { font-size: clamp(0.9rem, 2vw, 0.95rem); }
+      .profile { padding: 24px; }
+      .profile img { width: 160px; height: 160px; }
+      .profile h2 { font-size: clamp(1.5rem, 3vw, 1.8rem); }
+      .profile p { font-size: clamp(0.9rem, 2vw, 0.95rem); }
+      .twitch-button { padding: 10px 24px; font-size: 0.95rem; }
       .reminder-button { padding: 10px 20px; font-size: 0.9rem; }
-      .next-streamer-container { padding: 16px; }
-      .next-streamer-container h3 { font-size: 1.3rem; }
-      .next-streamer-container p { font-size: 1rem; }
+      .next-streamer-container { padding: 20px; }
+      .next-streamer-container h3 { font-size: clamp(1.2rem, 2.5vw, 1.3rem); }
+      .next-streamer-container p { font-size: clamp(0.9rem, 2vw, 0.95rem); }
       .calendar-button { padding: 10px 20px; font-size: 0.9rem; }
-      .roster-container { padding: 16px; }
+      .roster-container { padding: 20px; }
       .roster-table th, .roster-table td {
-        font-size: 0.95rem;
-        padding: 10px 6px;
+        font-size: clamp(0.9rem, 2vw, 0.95rem);
+        padding: 10px 12px;
       }
-      .roster-table th {
-        font-size: 0.9rem;
-      }
-      .roster-twitch-button {
-        padding: 6px 12px;
-        font-size: 0.9rem;
-        min-height: 36px;
-        min-width: 80px;
-      }
-      .next-stream-info {
-        font-size: 0.85rem;
-      }
+      .roster-table th { font-size: clamp(0.8rem, 2vw, 0.85rem); }
+      .roster-twitch-button { padding: 6px 12px; font-size: 0.85rem; min-height: 32px; }
+      .next-stream-info { font-size: clamp(0.8rem, 2vw, 0.85rem); }
       .add-all-button { padding: 10px 20px; font-size: 0.9rem; min-height: 36px; }
     }
 
     @media (max-width: 480px) {
-      body { padding: 8px; }
-      .intro h1 { font-size: clamp(1.8rem, 4vw, 2.2rem); }
-      .intro p { font-size: clamp(0.9rem, 2vw, 1rem); }
-      .streamer-select { max-width: 100%; }
-      .dropdown__face { padding: 0.8rem 1rem; font-size: clamp(0.9rem, 2vw, 1rem); }
-      .dropdown__items { padding: 0.6rem; }
-      .dropdown__items li { font-size: clamp(0.85rem, 2vw, 0.95rem); }
+      body { padding: 12px; }
+      .intro { padding: 16px; }
+      .intro h1 { font-size: clamp(1.6rem, 4vw, 2rem); }
+      .intro p { font-size: clamp(0.85rem, 2vw, 0.9rem); }
+      .dropdown__face { padding: 10px 16px; font-size: clamp(0.9rem, 2vw, 0.95rem); }
+      .dropdown__items { padding: 10px; }
+      .dropdown__items li { font-size: clamp(0.85rem, 2vw, 0.9rem); }
       .profile { padding: 20px; }
-      .profile img { width: 160px; height: 160px; }
-      .profile h2 { font-size: 1.7rem; }
-      .profile p { font-size: 0.95rem; }
-      .twitch-button { padding: 10px 24px; font-size: 0.95rem; }
-      .reminder-button { padding: 8px 16px; font-size: 0.85rem; }
-      .next-streamer-container { padding: 12px; }
-      .next-streamer-container h3 { font-size: 1.2rem; }
-      .next-streamer-container p { font-size: 0.9rem; }
+      .profile img { width: 140px; height: 140px; }
+      .profile h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); }
+      .profile p { font-size: clamp(0.85rem, 2vw, 0.9rem); }
+      .twitch-button { padding: 8px 20px; font-size: 0.9rem; }
+      .reminder-button { padding: 8px 16px; font-size: 0.85rem; max-width: 100%; }
+      .next-streamer-container { padding: 16px; }
+      .next-streamer-container h3 { font-size: clamp(1.1rem, 2.5vw, 1.2rem); }
+      .next-streamer-container p { font-size: clamp(0.85rem, 2vw, 0.9rem); }
       .calendar-button { padding: 8px 16px; font-size: 0.85rem; }
-      .roster-container { padding: 12px; }
-      .roster-table {
-        font-size: 0.9rem;
-        display: table;
-        table-layout: auto;
-      }
+      .roster-container { padding: 16px; }
+      .roster-table { font-size: clamp(0.85rem, 2vw, 0.9rem); }
       .roster-table th, .roster-table td {
-        padding: 8px 4px;
-        font-size: 0.85rem;
-        min-width: 80px;
+        padding: 8px 10px;
+        font-size: clamp(0.8rem, 2vw, 0.85rem);
       }
-      .roster-table th {
-        font-size: 0.8rem;
-      }
-      .roster-table td:first-child {
-        max-width: 120px;
-      }
-      .roster-table td:nth-child(2) {
-        max-width: 100px;
-      }
-      .roster-table td:nth-child(3) {
-        max-width: 140px;
-      }
-      .roster-twitch-button {
-        padding: 5px 8px;
-        font-size: 0.8rem;
-        min-height: 32px;
-        min-width: 70px;
-      }
-      .countdown, .next-stream-info {
-        font-size: 0.8rem;
-        white-space: normal;
-        line-height: 1.2;
-      }
-      .live-indicator {
-        width: 8px;
-        height: 8px;
-        margin-right: 4px;
-      }
+      .roster-table th { font-size: clamp(0.75rem, 2vw, 0.8rem); }
+      .roster-twitch-button { padding: 5px 10px; font-size: 0.8rem; min-height: 28px; }
+      .countdown, .next-stream-info { font-size: clamp(0.75rem, 2vw, 0.8rem); }
+      .live-indicator { width: 6px; height: 6px; margin-right: 6px; }
       .add-all-button { padding: 8px 16px; font-size: 0.85rem; min-height: 32px; }
     }
   </style>
@@ -726,18 +675,18 @@
       <p>Explore schedules for your favorite Twitch streamers. Watch live, view VODs, and set calendar reminders. Access via streamschedule.me/#username!</p>
     </div>
     <div class="streamer-select">
-      <div class="dropdown" role="combobox" aria-expanded="false">
+      <div class="dropdown" role="combobox" aria-expanded="false" aria-labelledby="dropdown-text">
         <div class="dropdown__face" tabindex="0">
           <div class="dropdown__text" id="dropdown-text">Select Streamer</div>
           <div class="dropdown__arrow"></div>
         </div>
-        <ul class="dropdown__items" id="streamer-dropdown">
+        <ul class="dropdown__items" id="streamer-dropdown" role="listbox">
           <!-- Streamer options will be populated by JavaScript -->
         </ul>
       </div>
     </div>
     <div class="status-container">
-      <a class="live-badge" id="live-badge" href="#" target="_blank">Live on Twitch!</a>
+      <a class="live-badge" id="live-badge" href="#" target="_blank" aria-hidden="true">Live on Twitch!</a>
       <div class="schedule-info" id="schedule-info">Next stream in: TBD</div>
     </div>
     <div class="profile" id="profile">
@@ -945,6 +894,7 @@
 
       let selectedStreamerId = null;
       let isLiveNowSelected = false;
+      let updateInterval = null;
 
       function showToast(message) {
         const toast = document.createElement('div');
@@ -959,7 +909,12 @@
       }
 
       function getNzTime(date) {
-        return new Date(date.toLocaleString("en-US", { timeZone: "Pacific/Auckland" }));
+        try {
+          return new Date(date.toLocaleString("en-US", { timeZone: "Pacific/Auckland" }));
+        } catch (e) {
+          console.warn('Error getting NZ time:', e.message);
+          return new Date();
+        }
       }
 
       function isStreamingDay(streamer, date) {
@@ -989,17 +944,14 @@
         const nzTime = getNzTime(new Date());
         const currentDay = nzTime.getDay();
         const currentHour = nzTime.getHours();
-        let nextDay = currentDay;
         let daysToAdd = 0;
 
-        // Check if the streamer's stream for today has already ended
         const isTodayStreamingDay = isStreamingDay(streamer, nzTime);
         const hasStreamEndedToday = isTodayStreamingDay && currentHour >= streamer.endHour;
 
-        // Start from the next possible stream (skip today if stream has ended)
         let startOffset = hasStreamEndedToday || isStreamerLive(streamer) ? 1 : 0;
         for (let i = startOffset; i <= 7 + startOffset; i++) {
-          nextDay = (currentDay + i) % 7;
+          const nextDay = (currentDay + i) % 7;
           if (streamer.streamingDays.includes(nextDay)) {
             daysToAdd = i;
             break;
@@ -1010,7 +962,6 @@
         nextStreamDate.setDate(nzTime.getDate() + daysToAdd);
         nextStreamDate.setHours(streamer.startHour, 0, 0, 0);
 
-        // If today is a streaming day, stream hasn't ended, and hasn't started yet, use today's stream
         if (isTodayStreamingDay && !hasStreamEndedToday && !isStreamerLive(streamer) && currentHour < streamer.startHour) {
           nextStreamDate.setDate(nzTime.getDate());
           nextStreamDate.setHours(streamer.startHour, 0, 0, 0);
@@ -1040,7 +991,7 @@
         });
 
         return {
-          countdown: countdownString.trim(),
+          countdown: countdownString.trim() || '<1m',
           date: dateString,
           day: dayString,
           time: timeString,
@@ -1164,7 +1115,6 @@
         let count = 0;
         let daysChecked = 0;
 
-        // Skip today if the stream has already ended
         const isTodayStreamingDay = isStreamingDay(streamer, nzTime);
         const hasStreamEndedToday = isTodayStreamingDay && nzTime.getHours() >= streamer.endHour;
         if (hasStreamEndedToday) {
@@ -1228,30 +1178,6 @@
         });
       }
 
-      function updateRosterTable() {
-        const rows = rosterTableBody.querySelectorAll('tr');
-        rows.forEach(row => {
-          const streamerName = row.querySelector('td:first-child a').textContent;
-          const streamer = streamers.find(s => s.name === streamerName);
-          const isLive = isStreamerLive(streamer);
-          const streamInfo = getNextStreamInfo(streamer);
-          const statusCell = row.querySelector('td:nth-child(2)');
-          const nextStreamCell = row.querySelector('td:nth-child(3)');
-          if (isLive) {
-            row.classList.add('live-now');
-            statusCell.innerHTML = '<span class="live-indicator"></span>Live Now';
-            nextStreamCell.innerHTML = `<a href="${streamer.twitch}" target="_blank" class="roster-twitch-button"><i class="fab fa-twitch"></i> Watch Live</a>`;
-          } else {
-            row.classList.remove('live-now');
-            statusCell.textContent = 'Offline';
-            nextStreamCell.innerHTML = `
-              <span class="countdown">In ${streamInfo.countdown}</span>
-              <span class="next-stream-info">${streamInfo.day}, ${streamInfo.date} at ${streamInfo.time}</span>
-            `;
-          }
-        });
-      }
-
       function updateProfile(streamer) {
         if (!streamer) {
           streamer = streamers[0];
@@ -1263,7 +1189,7 @@
         profileTitle.textContent = streamer.name;
         profileDescription.textContent = `Join ${streamer.name} for epic gaming sessions, variety streams, and a vibrant Twitch community!`;
         twitchButton.href = isStreamerLive(streamer) ? streamer.twitch : streamer.vods;
-        twitchButton.textContent = isStreamerLive(streamer) ? 'Watch on Twitch' : 'Watch VODs';
+        twitchButton.innerHTML = `<i class="fab fa-twitch"></i> ${isStreamerLive(streamer) ? 'Watch on Twitch' : 'Watch VODs'}`;
         twitchButton.style.background = isStreamerLive(streamer) ? 'var(--live-badge)' : 'var(--twitch-color)';
         const streamInfo = getNextStreamInfo(streamer);
         if (isStreamerLive(streamer)) {
@@ -1341,10 +1267,10 @@
             showToast('No upcoming streams found.');
           }
         };
-        setInterval(() => {
-          updateRosterTable();
+        if (updateInterval) clearInterval(updateInterval);
+        updateInterval = setInterval(() => {
           populateRosterTable();
-        }, 1000);
+        }, 60000);
       }
 
       const liveNowLi = document.createElement('li');
@@ -1352,6 +1278,7 @@
       liveNowLi.textContent = 'Live Now';
       liveNowLi.classList.add('live-now');
       liveNowLi.tabIndex = 0;
+      liveNowLi.setAttribute('role', 'option');
       dropdownItems.appendChild(liveNowLi);
 
       streamers.forEach(streamer => {
@@ -1359,6 +1286,7 @@
         li.dataset.streamerId = streamer.id;
         li.textContent = streamer.name;
         li.tabIndex = 0;
+        li.setAttribute('role', 'option');
         dropdownItems.appendChild(li);
       });
 
@@ -1508,12 +1436,17 @@
 
       window.addEventListener('hashchange', handleHashChange);
 
-      setInterval(() => {
+      const liveUpdateInterval = setInterval(() => {
         if (isLiveNowSelected) {
           const currentStreamer = getCurrentStreamer();
           updateProfile(currentStreamer);
         }
       }, 60000);
+
+      window.addEventListener('unload', () => {
+        if (updateInterval) clearInterval(updateInterval);
+        clearInterval(liveUpdateInterval);
+      });
     });
   </script>
 </body>
