@@ -716,7 +716,7 @@
     <div class="profile" id="profile">
       <img src="https://i.postimg.cc/9XsKQYKC/bizaropeter-profile.png" alt="BizaroPeter logo" loading="lazy">
       <h2>BizaroPeter</h2>
-      <p>Join BizaroPeter for epic gaming sessions, variety streams, and a vibrant Twitch community!</p>
+      <p>Join BizaroPeter for epic fun sessions, variety streams, and a vibrant Twitch community!</p>
       <a class="twitch-button" id="twitch-button" href="#" target="_blank"><i class="fab fa-twitch"></i> Watch on Twitch</a>
       <div class="next-streamer-container" id="next-streamer">
         <h3>Upcoming Stream</h3>
@@ -1200,7 +1200,7 @@
         profileImg.src = streamer.avatar;
         profileImg.alt = `${streamer.name} logo`;
         profileTitle.textContent = streamer.name;
-        profileDescription.textContent = `Join ${streamer.name} for epic gaming sessions, variety streams, and a vibrant Twitch community!`;
+        profileDescription.textContent = `Join ${streamer.name} for epic fun sessions, variety streams, and a vibrant Twitch community!`;
         twitchButton.href = isStreamerLive(streamer) ? streamer.twitch : streamer.vods;
         twitchButton.innerHTML = `<i class="fab fa-twitch"></i> ${isStreamerLive(streamer) ? 'Watch on Twitch' : 'Watch VODs'}`;
         twitchButton.style.background = isStreamerLive(streamer) ? 'var(--live-badge)' : 'var(--twitch-color)';
