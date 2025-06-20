@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StreamSchedule.me - Epic Twitch Schedules</title>
   <meta name="description" content="Explore schedules for your favorite Twitch streamers on StreamSchedule.me. Watch live, view VODs, and set calendar reminders. Access via streamschedule.me/@username!">
-  <meta name="keywords" content="stream schedule, Twitch, streamers, xwlasxd, HeavySamLifts, ShadyPeterLive, ramkrishanghoil, zxckjsdv, brbcompiling, ogvkorg, TrevorMarksman, ValentineCoolio, LegacyMartian, MovieByMacaffe, BizaroPeter, GynaWENS, ggqporg, xvbrznem">
+  <meta name="keywords" content="stream schedule, Twitch, streamers, xwlasxd, HeavySamLifts, ShadyPeterLive, ramkrishanghoil, zxckjsdv, brbcompiling, TrevorMarksman, ValentineCoolio, LegacyMartian, MovieByMacaffe, BizaroPeter, GynaWENS, xvbrznem">
   <meta name="author" content="StreamSchedule.me">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="StreamSchedule.me - Epic Twitch Schedules">
   <meta property="og:description" content="Dive into epic Twitch streamer schedules on StreamSchedule.me. Watch live streams, view VODs, and set reminders. Access via streamschedule.me/@username!">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://streamschedule.me">
-  <meta property="og:image" content="https://i.postimg.cc/zfSxRGYF/Binge-Watchers-prfile-png-1.png">
+  <meta property="og:image" content="https://i.postimg.cc/F1k6Lykq/xwlasxd-logo.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="StreamSchedule.me - Epic Twitch Schedules">
   <meta name="twitter:description" content="Explore Twitch streamer schedules, watch live, view VODs, and set reminders on StreamSchedule.me. Access via streamschedule.me/@username!">
-  <meta name="twitter:image" content="https://i.postimg.cc/zfSxRGYF/Binge-Watchers-prfile-png-1.png">
+  <meta name="twitter:image" content="https://i.postimg.cc/F1k6Lykq/xwlasxd-logo.png">
   <link rel="canonical" href="https://streamschedule.me">
   <link rel="icon" type="image/png" href="https://i.postimg.cc/bJX8w7B1/schedule-logo.png">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
@@ -57,7 +57,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
+      padding: 16px;
       font-size: 16px;
       overflow-x: hidden;
     }
@@ -77,32 +77,34 @@
 
     .intro {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       background: var(--glass-bg);
       backdrop-filter: blur(10px);
-      padding: 24px;
+      padding: 20px;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
+      width: 100%;
     }
 
     .intro h1 {
-      font-size: clamp(2.2rem, 5vw, 2.8rem);
+      font-size: clamp(2rem, 5vw, 2.5rem);
       color: var(--text);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .intro p {
-      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      font-size: clamp(0.95rem, 2.5vw, 1rem);
       color: var(--text-muted);
-      max-width: 700px;
+      max-width: 600px;
       line-height: 1.6;
+      margin: 0 auto;
     }
 
     .streamer-select {
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       width: 100%;
-      max-width: 500px;
+      max-width: 400px;
     }
 
     .dropdown {
@@ -112,11 +114,11 @@
 
     .dropdown__face {
       background: var(--glass-bg);
-      padding: 16px 24px;
+      padding: 12px 20px;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
       color: var(--text);
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-size: clamp(0.95rem, 2.5vw, 1rem);
       font-weight: 600;
       display: flex;
       align-items: center;
@@ -150,7 +152,7 @@
       z-index: 200;
       background: var(--glass-bg);
       backdrop-filter: blur(10px);
-      padding: 16px;
+      padding: 12px;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
       animation: slideDown 0.3s ease-in-out;
@@ -164,7 +166,7 @@
     }
 
     .dropdown__items::-webkit-scrollbar {
-      width: 8px;
+      width: 6px;
     }
 
     .dropdown__items::-webkit-scrollbar-track {
@@ -187,11 +189,11 @@
     }
 
     .dropdown__items li {
-      padding: 12px 16px;
+      padding: 10px 12px;
       cursor: pointer;
       transition: all 0.2s ease;
       border-radius: 8px;
-      font-size: clamp(0.95rem, 2vw, 1rem);
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
       font-weight: 500;
       color: var(--text);
     }
@@ -215,10 +217,10 @@
       content: '';
       position: absolute;
       top: 50%;
-      left: 8px;
+      left: 6px;
       transform: translateY(-50%);
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       background: var(--text);
       border-radius: 50%;
       animation: flash 1.5s infinite ease-in-out;
@@ -232,8 +234,8 @@
     .dropdown__arrow {
       border-bottom: 2px solid var(--text);
       border-right: 2px solid var(--text);
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       transform: rotate(45deg);
       transition: transform 0.2s ease;
     }
@@ -243,18 +245,18 @@
     }
 
     .status-container {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       text-align: center;
       width: 100%;
-      max-width: 700px;
+      max-width: 600px;
     }
 
     .live-badge {
       background: var(--live-badge);
       color: var(--text);
-      padding: 10px 20px;
+      padding: 8px 16px;
       border-radius: 8px;
-      font-size: 0.95rem;
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
       font-weight: 600;
       display: none;
       transition: all 0.2s ease;
@@ -276,10 +278,10 @@
       content: '';
       position: absolute;
       top: 50%;
-      left: 10px;
+      left: 8px;
       transform: translateY(-50%);
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       background: var(--text);
       border-radius: 50%;
       animation: flash 1.5s infinite ease-in-out;
@@ -288,9 +290,9 @@
     .schedule-info {
       background: var(--glass-bg);
       color: var(--text-muted);
-      padding: 10px 20px;
+      padding: 8px 16px;
       border-radius: 8px;
-      font-size: 0.95rem;
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
       font-weight: 500;
       display: none;
       transition: all 0.2s ease;
@@ -308,8 +310,8 @@
       background: var(--glass-bg);
       backdrop-filter: blur(10px);
       border-radius: 16px;
-      padding: 32px;
-      max-width: 700px;
+      padding: 24px;
+      max-width: 600px;
       width: 100%;
       transition: transform 0.3s ease;
       border: 1px solid var(--glass-border);
@@ -321,11 +323,11 @@
     }
 
     .profile img {
-      width: 200px;
-      height: 200px;
+      width: 160px;
+      height: 160px;
       border-radius: 16px;
       object-fit: cover;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       transition: transform 0.3s ease;
     }
 
@@ -334,25 +336,25 @@
     }
 
     .profile h2 {
-      font-size: clamp(1.8rem, 4vw, 2.2rem);
+      font-size: clamp(1.5rem, 4vw, 1.8rem);
       color: var(--text);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .profile p {
-      font-size: clamp(0.95rem, 2vw, 1rem);
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
       color: var(--text-muted);
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       line-height: 1.6;
     }
 
     .twitch-button {
       background: var(--twitch-color);
       border-radius: 8px;
-      padding: 12px 32px;
+      padding: 10px 24px;
       color: var(--text);
-      font-size: 1rem;
+      font-size: clamp(0.95rem, 2vw, 1rem);
       font-weight: 600;
       display: inline-flex;
       align-items: center;
@@ -370,37 +372,37 @@
     }
 
     .next-streamer-container {
-      margin-top: 32px;
+      margin-top: 24px;
       text-align: center;
       background: var(--glass-bg);
       backdrop-filter: blur(10px);
-      padding: 24px;
+      padding: 20px;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
       width: 100%;
-      max-width: 700px;
+      max-width: 600px;
       box-shadow: var(--shadow);
     }
 
     .next-streamer-container h3 {
-      font-size: clamp(1.3rem, 3vw, 1.5rem);
+      font-size: clamp(1.2rem, 3vw, 1.3rem);
       color: var(--text);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .next-streamer-container p {
-      font-size: clamp(0.95rem, 2vw, 1rem);
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       line-height: 1.6;
     }
 
     .calendar-button {
       background: var(--calendar-button);
       border-radius: 8px;
-      padding: 12px 24px;
+      padding: 10px 20px;
       color: var(--text);
-      font-size: 0.95rem;
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
       font-weight: 600;
       display: inline-flex;
       align-items: center;
@@ -420,17 +422,17 @@
     .reminder-buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 12px;
       justify-content: center;
-      margin-top: 24px;
+      margin-top: 16px;
     }
 
     .reminder-button {
       background: var(--calendar-button);
       border-radius: 8px;
-      padding: 12px 24px;
+      padding: 10px 20px;
       color: var(--text);
-      font-size: 0.95rem;
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
       font-weight: 600;
       display: inline-flex;
       align-items: center;
@@ -439,7 +441,7 @@
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
       width: 100%;
-      max-width: 300px;
+      max-width: 280px;
       text-align: center;
       cursor: pointer;
     }
@@ -451,47 +453,50 @@
     }
 
     .roster-container {
-      margin: 32px 0;
+      margin: 24px 0;
       width: 100%;
       max-width: 960px;
       background: var(--glass-bg);
       backdrop-filter: blur(10px);
-      padding: 24px;
+      padding: 20px;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
     }
 
     .roster-container h2 {
-      font-size: clamp(1.5rem, 3vw, 1.8rem);
+      font-size: clamp(1.3rem, 3vw, 1.6rem);
       color: var(--text);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .roster-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: clamp(0.95rem, 2vw, 1rem);
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
+      table-layout: auto;
     }
 
     .roster-table th,
     .roster-table td {
-      padding: 12px 16px;
+      padding: 10px 12px;
       text-align: left;
       color: var(--text);
       font-weight: 500;
+      border-bottom: 1px solid var(--glass-border);
+      vertical-align: middle;
+      min-width: 120px;
     }
 
     .roster-table th {
       font-weight: 600;
       background: rgba(255, 255, 255, 0.05);
       text-transform: uppercase;
-      font-size: clamp(0.85rem, 2vw, 0.9rem);
+      font-size: clamp(0.8rem, 2vw, 0.85rem);
       color: var(--text-muted);
     }
 
     .roster-table tr {
-      border-bottom: 1px solid var(--glass-border);
       transition: background 0.2s ease;
     }
 
@@ -509,16 +514,6 @@
       background: var(--live-badge-hover);
     }
 
-    .live-indicator {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background: var(--text);
-      border-radius: 50%;
-      margin-right: 8px;
-      animation: flash 1.5s infinite ease-in-out;
-    }
-
     .countdown {
       font-weight: 600;
       color: var(--text);
@@ -527,7 +522,7 @@
 
     .next-stream-info {
       display: block;
-      font-size: clamp(0.85rem, 2vw, 0.9rem);
+      font-size: clamp(0.8rem, 2vw, 0.85rem);
       color: var(--text-muted);
       margin-top: 4px;
     }
@@ -535,9 +530,9 @@
     .roster-twitch-button {
       background: var(--live-badge);
       border-radius: 8px;
-      padding: 8px 16px;
+      padding: 6px 12px;
       color: var(--text);
-      font-size: 0.9rem;
+      font-size: clamp(0.85rem, 2vw, 0.9rem);
       font-weight: 600;
       display: inline-flex;
       align-items: center;
@@ -545,7 +540,7 @@
       transition: all 0.2s ease;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
-      min-height: 36px;
+      min-height: 32px;
       text-decoration: none;
     }
 
@@ -555,21 +550,44 @@
       box-shadow: var(--glow);
     }
 
+    .roster-vods-button {
+      background: var(--twitch-color);
+      border-radius: 8px;
+      padding: 6px 12px;
+      color: var(--text);
+      font-size: clamp(0.85rem, 2vw, 0.9rem);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      min-height: 32px;
+      text-decoration: none;
+    }
+
+    .roster-vods-button:hover {
+      background: var(--twitch-color-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
+    }
+
     .add-all-button {
       display: block;
-      margin: 24px auto 0;
+      margin: 20px auto 0;
       background: var(--calendar-button);
       border-radius: 8px;
-      padding: 12px 24px;
+      padding: 10px 20px;
       color: var(--text);
-      font-size: 0.95rem;
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
       font-weight: 600;
       text-align: center;
       transition: all 0.2s ease;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
       cursor: pointer;
-      min-height: 40px;
+      min-height: 36px;
     }
 
     .add-all-button:hover {
@@ -580,7 +598,7 @@
 
     .toast {
       position: fixed;
-      bottom: 24px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       background: var(--glass-bg);
@@ -593,7 +611,7 @@
       backdrop-filter: blur(10px);
       border: 1px solid var(--glass-border);
       transition: all 0.3s ease;
-      font-size: 0.95rem;
+      font-size: clamp(0.9rem, 2vw, 0.95rem);
     }
 
     .toast.show {
@@ -607,64 +625,70 @@
     }
 
     @media (max-width: 768px) {
-      body { padding: 16px; }
-      .intro { padding: 20px; }
-      .intro h1 { font-size: clamp(1.8rem, 4vw, 2.2rem); }
-      .intro p { font-size: clamp(0.95rem, 2vw, 1rem); }
-      .streamer-select { max-width: 100%; }
-      .dropdown__face { padding: 12px 20px; font-size: clamp(0.95rem, 2vw, 1rem); }
-      .dropdown__items { padding: 12px; }
-      .dropdown__items li { font-size: clamp(0.9rem, 2vw, 0.95rem); }
-      .profile { padding: 24px; }
-      .profile img { width: 160px; height: 160px; }
-      .profile h2 { font-size: clamp(1.5rem, 3vw, 1.8rem); }
-      .profile p { font-size: clamp(0.9rem, 2vw, 0.95rem); }
-      .twitch-button { padding: 10px 24px; font-size: 0.95rem; }
-      .reminder-button { padding: 10px 20px; font-size: 0.9rem; }
-      .next-streamer-container { padding: 20px; }
-      .next-streamer-container h3 { font-size: clamp(1.2rem, 2.5vw, 1.3rem); }
-      .next-streamer-container p { font-size: clamp(0.9rem, 2vw, 0.95rem); }
-      .calendar-button { padding: 10px 20px; font-size: 0.9rem; }
-      .roster-container { padding: 20px; }
-      .roster-table th, .roster-table td {
-        font-size: clamp(0.9rem, 2vw, 0.95rem);
-        padding: 10px 12px;
-      }
-      .roster-table th { font-size: clamp(0.8rem, 2vw, 0.85rem); }
-      .roster-twitch-button { padding: 6px 12px; font-size: 0.85rem; min-height: 32px; }
-      .next-stream-info { font-size: clamp(0.8rem, 2vw, 0.85rem); }
-      .add-all-button { padding: 10px 20px; font-size: 0.9rem; min-height: 36px; }
-    }
-
-    @media (max-width: 480px) {
       body { padding: 12px; }
       .intro { padding: 16px; }
       .intro h1 { font-size: clamp(1.6rem, 4vw, 2rem); }
-      .intro p { font-size: clamp(0.85rem, 2vw, 0.9rem); }
+      .intro p { font-size: clamp(0.9rem, 2vw, 0.95rem); }
+      .streamer-select { max-width: 100%; }
       .dropdown__face { padding: 10px 16px; font-size: clamp(0.9rem, 2vw, 0.95rem); }
       .dropdown__items { padding: 10px; }
       .dropdown__items li { font-size: clamp(0.85rem, 2vw, 0.9rem); }
       .profile { padding: 20px; }
-      .profile img { width: 140px; height: 140px; }
+      .profile img { width: 120px; height: 120px; }
       .profile h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); }
       .profile p { font-size: clamp(0.85rem, 2vw, 0.9rem); }
-      .twitch-button { padding: 8px 20px; font-size: 0.9rem; }
-      .reminder-button { padding: 8px 16px; font-size: 0.85rem; max-width: 100%; }
+      .twitch-button { padding: 8px 20px; font-size: clamp(0.9rem, 2vw, 0.95rem); }
+      .reminder-button { padding: 8px 16px; font-size: clamp(0.85rem, 2vw, 0.9rem); max-width: 100%; }
       .next-streamer-container { padding: 16px; }
       .next-streamer-container h3 { font-size: clamp(1.1rem, 2.5vw, 1.2rem); }
       .next-streamer-container p { font-size: clamp(0.85rem, 2vw, 0.9rem); }
-      .calendar-button { padding: 8px 16px; font-size: 0.85rem; }
+      .calendar-button { padding: 8px 16px; font-size: clamp(0.85rem, 2vw, 0.9rem); }
       .roster-container { padding: 16px; }
-      .roster-table { font-size: clamp(0.85rem, 2vw, 0.9rem); }
       .roster-table th, .roster-table td {
+        font-size: clamp(0.85rem, 2vw, 0.9rem);
         padding: 8px 10px;
-        font-size: clamp(0.8rem, 2vw, 0.85rem);
       }
       .roster-table th { font-size: clamp(0.75rem, 2vw, 0.8rem); }
-      .roster-twitch-button { padding: 5px 10px; font-size: 0.8rem; min-height: 28px; }
-      .countdown, .next-stream-info { font-size: clamp(0.75rem, 2vw, 0.8rem); }
-      .live-indicator { width: 6px; height: 6px; margin-right: 6px; }
-      .add-all-button { padding: 8px 16px; font-size: 0.85rem; min-height: 32px; }
+      .roster-twitch-button, .roster-vods-button { padding: 5px 10px; font-size: clamp(0.8rem, 2vw, 0.85rem); min-height: 28px; }
+      .next-stream-info { font-size: clamp(0.75rem, 2vw, 0.8rem); }
+      .add-all-button { padding: 8px 16px; font-size: clamp(0.85rem, 2vw, 0.9rem); min-height: 32px; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 8px; }
+      .intro { padding: 12px; }
+      .intro h1 { font-size: clamp(1.4rem, 4vw, 1.8rem); }
+      .intro p { font-size: clamp(0.85rem, 2vw, 0.9rem); }
+      .streamer-select { max-width: 100%; }
+      .dropdown__face { padding: 8px 12px; font-size: clamp(0.85rem, 2vw, 0.9rem); }
+      .dropdown__items { padding: 8px; }
+      .dropdown__items li { font-size: clamp(0.8rem, 2vw, 0.85rem); }
+      .profile { padding: 16px; }
+      .profile img { width: 100px; height: 100px; }
+      .profile h2 { font-size: clamp(1.2rem, 3vw, 1.4rem); }
+      .profile p { font-size: clamp(0.8rem, 2vw, 0.85rem); }
+      .twitch-button { padding: 6px 16px; font-size: clamp(0.85rem, 2vw, 0.9rem); }
+      .reminder-button { padding: 6px 12px; font-size: clamp(0.8rem, 2vw, 0.85rem); }
+      .next-streamer-container { padding: 12px; }
+      .next-streamer-container h3 { font-size: clamp(1rem, 2.5vw, 1.1rem); }
+      .next-streamer-container p { font-size: clamp(0.8rem, 2vw, 0.85rem); }
+      .calendar-button { padding: 6px 12px; font-size: clamp(0.8rem, 2vw, 0.85rem); }
+      .roster-container { padding: 12px; }
+      .roster-table {
+        font-size: clamp(0.8rem, 2vw, 0.85rem);
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      .roster-table th, .roster-table td {
+        padding: 6px 8px;
+        font-size: clamp(0.75rem, 2vw, 0.8rem);
+        min-width: 100px;
+      }
+      .roster-table th { font-size: clamp(0.7rem, 2vw, 0.75rem); }
+      .roster-twitch-button, .roster-vods-button { padding: 4px 8px; font-size: clamp(0.75rem, 2vw, 0.8rem); min-height: 24px; }
+      .countdown, .next-stream-info { font-size: clamp(0.7rem, 2vw, 0.75rem); }
+      .add-all-button { padding: 6px 12px; font-size: clamp(0.8rem, 2vw, 0.85rem); min-height: 28px; }
     }
   </style>
 </head>
@@ -690,9 +714,9 @@
       <div class="schedule-info" id="schedule-info">Next stream in: TBD</div>
     </div>
     <div class="profile" id="profile">
-      <img src="https://i.postimg.cc/zfSxRGYF/Binge-Watchers-prfile-png-1.png" alt="ogvkorg logo" loading="lazy">
-      <h2>ogvkorg</h2>
-      <p>Join ogvkorg for epic gaming sessions, variety streams, and a vibrant Twitch community!</p>
+      <img src="https://i.postimg.cc/9XsKQYKC/bizaropeter-profile.png" alt="BizaroPeter logo" loading="lazy">
+      <h2>BizaroPeter</h2>
+      <p>Join BizaroPeter for epic gaming sessions, variety streams, and a vibrant Twitch community!</p>
       <a class="twitch-button" id="twitch-button" href="#" target="_blank"><i class="fab fa-twitch"></i> Watch on Twitch</a>
       <div class="next-streamer-container" id="next-streamer">
         <h3>Upcoming Stream</h3>
@@ -710,8 +734,8 @@
         <thead>
           <tr>
             <th>Streamer</th>
-            <th>Status</th>
             <th>Next Stream</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody id="roster-table-body">
@@ -780,16 +804,6 @@
         twitch: 'https://twitch.tv/brbcompiling',
         vods: 'https://twitch.tv/brbcompiling/videos',
         startHour: 15,
-        endHour: 17,
-        streamingDays: [1, 3, 5, 0]
-      },
-      {
-        id: 'ogvkorg',
-        name: 'ogvkorg',
-        avatar: 'https://i.postimg.cc/zfSxRGYF/Binge-Watchers-prfile-png-1.png',
-        twitch: 'https://twitch.tv/ogvkorg',
-        vods: 'https://twitch.tv/ogvkorg/videos',
-        startHour: 17,
         endHour: 18,
         streamingDays: [1, 3, 5, 0]
       },
@@ -824,23 +838,13 @@
         streamingDays: [2, 4, 6]
       },
       {
-        id: 'MovieByMacaffe',
-        name: 'MovieByMacaffe',
-        avatar: 'https://i.postimg.cc/hjLg1ZH8/macaffe-best-logo.png',
-        twitch: 'https://twitch.tv/MovieByMacaffe',
-        vods: 'https://twitch.tv/MovieByMacaffe/videos',
-        startHour: 9,
-        endHour: 12,
-        streamingDays: [2, 4, 6]
-      },
-      {
         id: 'BizaroPeter',
         name: 'BizaroPeter',
         avatar: 'https://i.postimg.cc/9XsKQYKC/bizaropeter-profile.png',
         twitch: 'https://twitch.tv/BizaroPeter',
         vods: 'https://twitch.tv/BizaroPeter/videos',
-        startHour: 12,
-        endHour: 15,
+        startHour: 9,
+        endHour: 12,
         streamingDays: [2, 4, 6]
       },
       {
@@ -849,17 +853,17 @@
         avatar: 'https://i.postimg.cc/k5jh3QWr/wens-logo.png',
         twitch: 'https://twitch.tv/GynaWENS',
         vods: 'https://twitch.tv/GynaWENS/videos',
-        startHour: 15,
-        endHour: 17,
+        startHour: 12,
+        endHour: 15,
         streamingDays: [2, 4, 6]
       },
       {
-        id: 'ggqporg',
-        name: 'ggqporg',
-        avatar: 'https://i.postimg.cc/pVzjDw2v/GGQP-ORG-LOGO-png.png',
-        twitch: 'https://twitch.tv/ggqporg',
-        vods: 'https://twitch.tv/ggqporg/videos',
-        startHour: 17,
+        id: 'MovieByMacaffe',
+        name: 'MovieByMacaffe',
+        avatar: 'https://i.postimg.cc/hjLg1ZH8/macaffe-best-logo.png',
+        twitch: 'https://twitch.tv/MovieByMacaffe',
+        vods: 'https://twitch.tv/MovieByMacaffe/videos',
+        startHour: 15,
         endHour: 18,
         streamingDays: [2, 4, 6]
       },
@@ -929,11 +933,14 @@
 
       function getTimeLeft(streamer) {
         const nzTime = getNzTime(new Date());
-        const currentHour = nzTime.getHours();
-        const currentMinute = nzTime.getMinutes();
-        const endTime = streamer.endHour;
-        const hoursLeft = endTime - currentHour - 1;
-        const minutesLeft = 60 - currentMinute;
+        let endDate = new Date(nzTime);
+        endDate.setHours(streamer.endHour, 0, 0, 0);
+        if (endDate <= nzTime) {
+          endDate.setDate(endDate.getDate() + 1);
+        }
+        const timeDiffMs = endDate - nzTime;
+        const hoursLeft = Math.floor(timeDiffMs / (1000 * 60 * 60));
+        const minutesLeft = Math.floor((timeDiffMs % (1000 * 60 * 60)) / (1000 * 60));
         let timeString = '';
         if (hoursLeft > 0) timeString += `${hoursLeft}h `;
         if (minutesLeft > 0) timeString += `${minutesLeft}m`;
@@ -1000,7 +1007,8 @@
       }
 
       function getCurrentStreamer() {
-        return streamers.find(s => isStreamerLive(s)) || streamers[0];
+        const liveStreamers = streamers.filter(s => isStreamerLive(s));
+        return liveStreamers[0] || streamers[0];
       }
 
       function getNextStreamer() {
@@ -1165,12 +1173,17 @@
           if (isLive) row.classList.add('live-now');
           row.innerHTML = `
             <td><a href="${streamer.twitch}" target="_blank">${streamer.name}</a></td>
-            <td>${isLive ? '<span class="live-indicator"></span>Live Now' : 'Offline'}</td>
             <td>
               ${isLive ? 
-                `<a href="${streamer.twitch}" target="_blank" class="roster-twitch-button"><i class="fab fa-twitch"></i> Watch Live</a>` :
+                `<span class="countdown">${getTimeLeft(streamer)} left</span>` :
                 `<span class="countdown">In ${streamInfo.countdown}</span>
                  <span class="next-stream-info">${streamInfo.day}, ${streamInfo.date} at ${streamInfo.time}</span>`
+              }
+            </td>
+            <td>
+              ${isLive ?
+                `<a href="${streamer.twitch}" target="_blank" class="roster-twitch-button"><i class="fab fa-twitch"></i> Watch Live</a>` :
+                `<a href="${streamer.vods}" target="_blank" class="roster-vods-button"><i class="fab fa-twitch"></i> Watch VODs</a>`
               }
             </td>
           `;
@@ -1180,8 +1193,8 @@
 
       function updateProfile(streamer) {
         if (!streamer) {
-          streamer = streamers[0];
-          showToast('No streamer selected, defaulting to first streamer.');
+          streamer = getCurrentStreamer();
+          showToast('No streamer selected, defaulting to live or first streamer.');
         }
         selectedStreamerId = streamer.id;
         profileImg.src = streamer.avatar;
@@ -1270,6 +1283,9 @@
         if (updateInterval) clearInterval(updateInterval);
         updateInterval = setInterval(() => {
           populateRosterTable();
+          if (isLiveNowSelected) {
+            updateProfile(getCurrentStreamer());
+          }
         }, 60000);
       }
 
@@ -1287,6 +1303,9 @@
         li.textContent = streamer.name;
         li.tabIndex = 0;
         li.setAttribute('role', 'option');
+        if (isStreamerLive(streamer)) {
+          li.classList.add('live-now');
+        }
         dropdownItems.appendChild(li);
       });
 
