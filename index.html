@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StreamSchedule.me - Epic Twitch Schedules</title>
-  <meta name="description" content="Explore schedules for your favorite Twitch streamers on StreamSchedule.me. Watch live, view VODs, and set calendar reminders. Access via streamschedule.me/#username!">
+  <meta name="description" content="Explore schedules for your favorite Twitch streamers on StreamSchedule.me. Watch live, view VODs, and set calendar reminders. Access via streamschedule.me/@username!">
   <meta name="keywords" content="stream schedule, Twitch, streamers, xwlasxd, HeavySamLifts, ShadyPeterLive, ramkrishanghoil, zxckjsdv, brbcompiling, ogvkorg, TrevorMarksman, ValentineCoolio, LegacyMartian, MovieByMacaffe, BizaroPeter, GynaWENS, ggqporg, xvbrznem">
   <meta name="author" content="StreamSchedule.me">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="StreamSchedule.me - Epic Twitch Schedules">
-  <meta property="og:description" content="Dive into epic Twitch streamer schedules on StreamSchedule.me. Watch live streams, view VODs, and set reminders. Access via streamschedule.me/#username!">
+  <meta property="og:description" content="Dive into epic Twitch streamer schedules on StreamSchedule.me. Watch live streams, view VODs, and set reminders. Access via streamschedule.me/@username!">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://streamschedule.me">
   <meta property="og:image" content="https://i.postimg.cc/zfSxRGYF/Binge-Watchers-prfile-png-1.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="StreamSchedule.me - Epic Twitch Schedules">
-  <meta name="twitter:description" content="Explore Twitch streamer schedules, watch live, view VODs, and set reminders on StreamSchedule.me. Access via streamschedule.me/#username!">
+  <meta name="twitter:description" content="Explore Twitch streamer schedules, watch live, view VODs, and set reminders on StreamSchedule.me. Access via streamschedule.me/@username!">
   <meta name="twitter:image" content="https://i.postimg.cc/zfSxRGYF/Binge-Watchers-prfile-png-1.png">
   <link rel="canonical" href="https://streamschedule.me">
   <link rel="icon" type="image/png" href="https://i.postimg.cc/bJX8w7B1/schedule-logo.png">
@@ -672,7 +672,7 @@
   <div class="container">
     <div class="intro">
       <h1>StreamSchedule.me</h1>
-      <p>Explore schedules for your favorite Twitch streamers. Watch live, view VODs, and set calendar reminders. Access via streamschedule.me/#username!</p>
+      <p>Explore schedules for your favorite Twitch streamers. Watch live, view VODs, and set calendar reminders. Access via streamschedule.me/@username!</p>
     </div>
     <div class="streamer-select">
       <div class="dropdown" role="combobox" aria-expanded="false" aria-labelledby="dropdown-text">
@@ -1047,7 +1047,7 @@
         streams.forEach((stream, index) => {
           const startDate = new Date(stream.start);
           const endDate = new Date(stream.end);
-          const profileUrl = `https://streamschedule.me/#${encodeURIComponent(streamer.id)}`;
+          const profileUrl = `https://streamschedule.me/@${encodeURIComponent(streamer.id)}`;
           icsContent.push(
             'BEGIN:VEVENT',
             `UID:${streamer.id}-${stream.start.getTime()}-${index}@streamschedule.me`,
@@ -1083,7 +1083,7 @@
         streamersStreams.forEach(({ streamer, stream }, index) => {
           const startDate = new Date(stream.start);
           const endDate = new Date(stream.end);
-          const profileUrl = `https://streamschedule.me/#${encodeURIComponent(streamer.id)}`;
+          const profileUrl = `https://streamschedule.me/@${encodeURIComponent(streamer.id)}`;
           icsContent.push(
             'BEGIN:VEVENT',
             `UID:${streamer.id}-${stream.start.getTime()}-${index}@streamschedule.me`,
@@ -1235,9 +1235,9 @@
           };
         });
         try {
-          window.history.replaceState(null, null, `#${encodeURIComponent(streamer.id)}`);
+          window.history.replaceState(null, null, `/@${encodeURIComponent(streamer.id)}`);
         } catch (e) {
-          console.warn('Unable to update URL hash:', e.message);
+          console.warn('Unable to update URL:', e.message);
         }
       }
 
@@ -1390,10 +1390,12 @@
         };
       }
 
-      function loadStreamerFromHash() {
-        const hash = window.location.hash.substring(1).toLowerCase();
-        if (hash) {
-          const selectedStreamer = streamers.find(s => s.id.toLowerCase() === decodeURIComponent(hash));
+      function loadStreamerFromPath() {
+        const path = window.location.pathname;
+        const match = path.match(/^\/@([^/]+)/);
+        if (match) {
+          const username = decodeURIComponent(match[1]).toLowerCase();
+          const selectedStreamer = streamers.find(s => s.id.toLowerCase() === username);
           if (selectedStreamer) {
             dropdownText.textContent = selectedStreamer.name;
             isLiveNowSelected = false;
@@ -1405,15 +1407,15 @@
       }
 
       function init() {
-        let selectedStreamer = loadStreamerFromHash();
+        let selectedStreamer = loadStreamerFromPath();
         if (!selectedStreamer) {
           selectedStreamer = getCurrentStreamer();
           dropdownText.textContent = selectedStreamer.name;
           isLiveNowSelected = false;
           try {
-            window.history.replaceState(null, null, `#${encodeURIComponent(selectedStreamer.id)}`);
+            window.history.replaceState(null, null, `/@${encodeURIComponent(selectedStreamer.id)}`);
           } catch (e) {
-            console.warn('Unable to set initial URL hash:', e.message);
+            console.warn('Unable to set initial URL:', e.message);
           }
         }
         updateProfile(selectedStreamer);
@@ -1422,8 +1424,8 @@
 
       init();
 
-      const handleHashChange = debounce(() => {
-        const selectedStreamer = loadStreamerFromHash();
+      const handlePathChange = debounce(() => {
+        const selectedStreamer = loadStreamerFromPath();
         if (selectedStreamer) {
           updateProfile(selectedStreamer);
         } else {
@@ -1434,7 +1436,7 @@
         }
       }, 100);
 
-      window.addEventListener('hashchange', handleHashChange);
+      window.addEventListener('popstate', handlePathChange);
 
       const liveUpdateInterval = setInterval(() => {
         if (isLiveNowSelected) {
