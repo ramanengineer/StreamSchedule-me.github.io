@@ -18,7 +18,7 @@
   <meta name="twitter:description" content="Explore Twitch streamer schedules, watch live, view VODs, and set reminders on StreamSchedule.me. Access via streamschedule.me/@username!">
   <meta name="twitter:image" content="https://i.postimg.cc/F1k6Lykq/xwlasxd-logo.png">
   <link rel="canonical" href="https://streamschedule.me">
-  <link rel="icon" type="image/png" href="https://i.postimg.cc/bJX8w7B1/schedule-logo.png">
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/bJx8w7B1/schedule-logo.png">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -714,9 +714,9 @@
       <div class="schedule-info" id="schedule-info">Next stream in: TBD</div>
     </div>
     <div class="profile" id="profile">
-      <img src="https://i.postimg.cc/9XsKQYKC/bizaropeter-profile.png" alt="BizaroPeter logo" loading="lazy">
-      <h2>BizaroPeter</h2>
-      <p>Join BizaroPeter for epic fun sessions, variety streams, and a vibrant Twitch community!</p>
+      <img src="https://i.postimg.cc/k5jh3QWr/wens-logo.png" alt="GynaWENS logo" loading="lazy">
+      <h2>GynaWENS</h2>
+      <p>Join GynaWENS for epic gaming sessions, variety streams, and a vibrant Twitch community!</p>
       <a class="twitch-button" id="twitch-button" href="#" target="_blank"><i class="fab fa-twitch"></i> Watch on Twitch</a>
       <div class="next-streamer-container" id="next-streamer">
         <h3>Upcoming Stream</h3>
@@ -928,7 +928,10 @@
       function isStreamerLive(streamer) {
         const nzTime = getNzTime(new Date());
         const currentHour = nzTime.getHours();
-        return isStreamingDay(streamer, nzTime) && currentHour >= streamer.startHour && currentHour < streamer.endHour;
+        const currentDay = nzTime.getDay();
+        const isLive = isStreamingDay(streamer, nzTime) && currentHour >= streamer.startHour && currentHour < streamer.endHour;
+        console.debug(`Checking live status for ${streamer.name}: Day=${currentDay}, Hour=${currentHour}, StreamingDays=${streamer.streamingDays}, Start=${streamer.startHour}, End=${streamer.endHour}, IsLive=${isLive}`);
+        return isLive;
       }
 
       function getTimeLeft(streamer) {
@@ -1200,7 +1203,7 @@
         profileImg.src = streamer.avatar;
         profileImg.alt = `${streamer.name} logo`;
         profileTitle.textContent = streamer.name;
-        profileDescription.textContent = `Join ${streamer.name} for epic fun sessions, variety streams, and a vibrant Twitch community!`;
+        profileDescription.textContent = `Join ${streamer.name} for epic gaming sessions, variety streams, and a vibrant Twitch community!`;
         twitchButton.href = isStreamerLive(streamer) ? streamer.twitch : streamer.vods;
         twitchButton.innerHTML = `<i class="fab fa-twitch"></i> ${isStreamerLive(streamer) ? 'Watch on Twitch' : 'Watch VODs'}`;
         twitchButton.style.background = isStreamerLive(streamer) ? 'var(--live-badge)' : 'var(--twitch-color)';
@@ -1254,6 +1257,30 @@
         }
       }
 
+      function updateLiveStatus() {
+        // Update dropdown live status
+        dropdownItems.querySelectorAll('li').forEach(item => {
+          if (item.dataset.streamerId === 'live-now') {
+            const liveStreamer = streamers.find(s => isStreamerLive(s));
+            item.classList.toggle('live-now', !!liveStreamer);
+            return;
+          }
+          const streamer = streamers.find(s => s.id === item.dataset.streamerId);
+          if (streamer) {
+            const isLive = isStreamerLive(streamer);
+            item.classList.toggle('live-now', isLive);
+            console.debug(`Dropdown update: ${streamer.name}, live-now=${isLive}`);
+          }
+        });
+        // Update roster table
+        populateRosterTable();
+        // Update profile if "Live Now" is selected
+        if (isLiveNowSelected) {
+          const currentStreamer = getCurrentStreamer();
+          updateProfile(currentStreamer);
+        }
+      }
+
       function initRoster() {
         populateRosterTable();
         addAllButton.onclick = () => {
@@ -1281,33 +1308,37 @@
           }
         };
         if (updateInterval) clearInterval(updateInterval);
-        updateInterval = setInterval(() => {
-          populateRosterTable();
-          if (isLiveNowSelected) {
-            updateProfile(getCurrentStreamer());
-          }
-        }, 60000);
+        updateInterval = setInterval(updateLiveStatus, 60000);
       }
 
-      const liveNowLi = document.createElement('li');
-      liveNowLi.dataset.streamerId = 'live-now';
-      liveNowLi.textContent = 'Live Now';
-      liveNowLi.classList.add('live-now');
-      liveNowLi.tabIndex = 0;
-      liveNowLi.setAttribute('role', 'option');
-      dropdownItems.appendChild(liveNowLi);
-
-      streamers.forEach(streamer => {
-        const li = document.createElement('li');
-        li.dataset.streamerId = streamer.id;
-        li.textContent = streamer.name;
-        li.tabIndex = 0;
-        li.setAttribute('role', 'option');
-        if (isStreamerLive(streamer)) {
-          li.classList.add('live-now');
+      function populateDropdown() {
+        dropdownItems.innerHTML = '';
+        const liveNowLi = document.createElement('li');
+        liveNowLi.dataset.streamerId = 'live-now';
+        liveNowLi.textContent = 'Live Now';
+        liveNowLi.tabIndex = 0;
+        liveNowLi.setAttribute('role', 'option');
+        const liveStreamer = streamers.find(s => isStreamerLive(s));
+        if (liveStreamer) {
+          liveNowLi.classList.add('live-now');
         }
-        dropdownItems.appendChild(li);
-      });
+        dropdownItems.appendChild(liveNowLi);
+
+        streamers.forEach(streamer => {
+          const li = document.createElement('li');
+          li.dataset.streamerId = streamer.id;
+          li.textContent = streamer.name;
+          li.tabIndex = 0;
+          li.setAttribute('role', 'option');
+          if (isStreamerLive(streamer)) {
+            li.classList.add('live-now');
+            console.debug(`Initial dropdown: ${streamer.name} marked as live-now`);
+          }
+          dropdownItems.appendChild(li);
+        });
+      }
+
+      populateDropdown();
 
       function toggleDropdown() {
         const isOpen = dropdownItems.classList.contains('active');
@@ -1361,8 +1392,9 @@
         }
       });
 
-      dropdownItems.querySelectorAll('li').forEach(item => {
-        item.addEventListener('click', (e) => {
+      dropdownItems.addEventListener('click', (e) => {
+        const item = e.target.closest('li');
+        if (item) {
           e.stopPropagation();
           let selectedStreamer;
           if (item.dataset.streamerId === 'live-now') {
@@ -1376,11 +1408,14 @@
           }
           updateProfile(selectedStreamer);
           closeDropdown();
-        });
+        }
+      });
 
-        item.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
+      dropdownItems.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const item = e.target.closest('li');
+          if (item) {
             let selectedStreamer;
             if (item.dataset.streamerId === 'live-now') {
               selectedStreamer = getCurrentStreamer();
@@ -1394,7 +1429,7 @@
             updateProfile(selectedStreamer);
             closeDropdown();
           }
-        });
+        }
       });
 
       function debounce(func, wait) {
@@ -1457,16 +1492,8 @@
 
       window.addEventListener('popstate', handlePathChange);
 
-      const liveUpdateInterval = setInterval(() => {
-        if (isLiveNowSelected) {
-          const currentStreamer = getCurrentStreamer();
-          updateProfile(currentStreamer);
-        }
-      }, 60000);
-
       window.addEventListener('unload', () => {
         if (updateInterval) clearInterval(updateInterval);
-        clearInterval(liveUpdateInterval);
       });
     });
   </script>
