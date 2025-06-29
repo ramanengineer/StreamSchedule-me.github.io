@@ -3,46 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StreamSchedule.me - Epic Twitch Schedules</title>
-  <meta name="description" content="Explore schedules for your favorite Twitch streamers on StreamSchedule.me. Watch live, view VODs, and set calendar reminders. Access via streamschedule.me/@username!">
-  <meta name="keywords" content="stream schedule, Twitch, streamers, xwlasxd, HeavySamLifts, ShadyPeterLive, ramkrishanghoil, zxckjsdv, brbcompiling, TrevorMarksman, ValentineCoolio, LegacyMartian, MovieByMacaffe, BizaroPeter, GynaWENS, xvbrznem">
+  <title>StreamSchedule.me Stream Countdown</title>
+  <meta name="description" content="Countdown timer and schedule for StreamSchedule.me live Twitch streams.">
   <meta name="author" content="StreamSchedule.me">
-  <meta name="robots" content="index, follow">
-  <meta property="og:title" content="StreamSchedule.me - Epic Twitch Schedules">
-  <meta property="og:description" content="Dive into epic Twitch streamer schedules on StreamSchedule.me. Watch live streams, view VODs, and set reminders. Access via streamschedule.me/@username!">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://streamschedule.me">
-  <meta property="og:image" content="https://i.postimg.cc/bJX8w7B1/schedule-logo.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="StreamSchedule.me - Epic Twitch Schedules">
-  <meta name="twitter:description" content="Explore Twitch streamer schedules, watch live, view VODs, and set reminders on StreamSchedule.me. Access via streamschedule.me/@username!">
-  <meta name="twitter:image" content="https://i.postimg.cc/bJX8w7B1/schedule-logo.png">
-  <link rel="canonical" href="https://streamschedule.me">
-  <link rel="icon" type="image/png" href="https://i.postimg.cc/bJX8w7B1/schedule-logo.png">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <style>
-    :root {
-      --bg-dark: #1a1a2e;
-      --bg-accent: #25253b;
-      --text: #e6e6fa;
-      --text-muted: #b0b0cc;
-      --button: #5b5bd6;
-      --button-hover: #4a4ab2;
-      --streamer-button: #ff2a8c;
-      --streamer-button-hover: #d61f74;
-      --live-badge: #e63946;
-      --live-badge-hover: #cc2e3b;
-      --calendar-button: #2ecc71;
-      --calendar-button-hover: #27ae60;
-      --twitch-color: #8e44ad;
-      --twitch-color-hover: #783994;
-      --glass-bg: rgba(30, 30, 46, 0.9);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
-      --glow: 0 0 10px rgba(91, 91, 214, 0.5);
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -50,1451 +15,366 @@
     }
 
     body {
-      background: linear-gradient(135deg, var(--bg-dark), var(--bg-accent));
-      color: var(--text);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      min-height: 100vh;
+      background: #1a1a1a;
+      color: #d0d0d0;
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px;
-      font-size: 16px;
-      overflow-x: hidden;
+      padding: 1rem;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
 
-    a { color: var(--text); text-decoration: none; }
-    a:hover { color: var(--button-hover); }
-    h1, h2, h3 { font-weight: 700; text-align: center; }
-
-    .container {
-      max-width: 960px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeIn 1s ease-out;
+    body.light-mode {
+      background: #f0f0f0;
+      color: #333;
     }
 
-    .intro {
+    h1 {
+      font-weight: bold;
       text-align: center;
-      margin-bottom: 24px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      padding: 20px;
-      border-radius: 12px;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      width: 100%;
+      color: #e0e0e0;
+      margin: 0.5rem 0;
+      font-size: 2rem;
     }
 
-    .intro h1 {
-      font-size: clamp(2rem, 5vw, 2.5rem);
-      color: var(--text);
-      margin-bottom: 12px;
+    body.light-mode h1 {
+      color: #333;
     }
 
-    .intro p {
-      font-size: clamp(0.95rem, 2.5vw, 1rem);
-      color: var(--text-muted);
-      max-width: 600px;
-      line-height: 1.6;
-      margin: 0 auto;
+    .theme-toggle-container {
+      margin: 1rem 0;
+      text-align: center;
     }
 
-    .streamer-select {
-      margin-bottom: 24px;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .dropdown {
-      position: relative;
-      width: 100%;
-    }
-
-    .dropdown__face {
-      background: var(--glass-bg);
-      padding: 12px 20px;
-      border-radius: 12px;
-      border: 1px solid var(--glass-border);
-      color: var(--text);
-      font-size: clamp(0.95rem, 2.5vw, 1rem);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
-    }
-
-    .dropdown__face:hover, .dropdown__face:focus {
-      background: var(--button);
-      transform: translateY(-1px);
-      box-shadow: var(--glow);
-    }
-
-    .dropdown__text {
-      flex-grow: 1;
-      text-align: left;
-    }
-
-    .dropdown__items {
-      position: absolute;
-      left: 0;
-      top: calc(100% + 8px);
-      width: 100%;
-      list-style: none;
-      display: none;
-      flex-direction: column;
-      gap: 8px;
-      z-index: 200;
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--glass-border);
-      animation: slideDown 0.3s ease-in-out;
-      max-height: 50vh;
-      overflow-y: auto;
-      box-shadow: var(--shadow);
-    }
-
-    .dropdown__items.active {
-      display: flex;
-    }
-
-    .dropdown__items::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .dropdown__items::-webkit-scrollbar-track {
-      background: var(--bg-dark);
+    .theme-toggle {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      border: 1px solid #444;
       border-radius: 4px;
-    }
-
-    .dropdown__items::-webkit-scrollbar-thumb {
-      background: var(--streamer-button);
-      border-radius: 4px;
-    }
-
-    .dropdown__items::-webkit-scrollbar-thumb:hover {
-      background: var(--streamer-button-hover);
-    }
-
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .dropdown__items li {
-      padding: 10px 12px;
+      background: #2a2a2a;
+      color: #d0d0d0;
       cursor: pointer;
-      transition: all 0.2s ease;
-      border-radius: 8px;
-      font-size: clamp(0.9rem, 2vw, 0.95rem);
-      font-weight: 500;
-      color: var(--text);
+      transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     }
 
-    .dropdown__items li:hover, .dropdown__items li:focus {
-      background: var(--button);
-      color: var(--text);
-      transform: translateX(2px);
+    body.light-mode .theme-toggle {
+      background: #fff;
+      border-color: #ccc;
+      color: #333;
     }
 
-    .dropdown__items li.live-now {
-      background: var(--live-badge);
-      font-weight: 600;
+    .theme-toggle:hover {
+      background: #3a3a3a;
     }
 
-    .dropdown__items li.live-now:hover, .dropdown__items li.live-now:focus {
-      background: var(--live-badge-hover);
+    body.light-mode .theme-toggle:hover {
+      background: #f5f5f5;
     }
 
-    .dropdown__items li.live-now::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 6px;
-      transform: translateY(-50%);
-      width: 5px;
-      height: 5px;
-      background: var(--text);
-      border-radius: 50%;
-      animation: flash 1.5s infinite ease-in-out;
-    }
-
-    @keyframes flash {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .dropdown__arrow {
-      border-bottom: 2px solid var(--text);
-      border-right: 2px solid var(--text);
-      width: 8px;
-      height: 8px;
-      transform: rotate(45deg);
-      transition: transform 0.2s ease;
-    }
-
-    .dropdown__face.active .dropdown__arrow {
-      transform: rotate(-135deg);
-    }
-
-    .status-container {
-      margin-bottom: 20px;
-      text-align: center;
+    main {
       width: 100%;
       max-width: 600px;
-    }
-
-    .live-badge {
-      background: var(--live-badge);
-      color: var(--text);
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: clamp(0.9rem, 2vw, 0.95rem);
-      font-weight: 600;
-      display: none;
-      transition: all 0.2s ease;
-      box-shadow: var(--shadow);
-      position: relative;
-      text-decoration: none;
-    }
-
-    .live-badge.active {
-      display: inline-block;
-    }
-
-    .live-badge:hover {
-      background: var(--live-badge-hover);
-      transform: translateY(-2px);
-    }
-
-    .live-badge::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 8px;
-      transform: translateY(-50%);
-      width: 5px;
-      height: 5px;
-      background: var(--text);
-      border-radius: 50%;
-      animation: flash 1.5s infinite ease-in-out;
-    }
-
-    .schedule-info {
-      background: var(--glass-bg);
-      color: var(--text-muted);
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: clamp(0.9rem, 2vw, 0.95rem);
-      font-weight: 500;
-      display: none;
-      transition: all 0.2s ease;
-      box-shadow: var(--shadow);
-    }
-
-    .schedule-info.active {
-      display: inline-block;
-    }
-
-    .profile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 24px;
-      max-width: 600px;
-      width: 100%;
-      transition: transform 0.3s ease;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-    }
-
-    .profile:hover {
-      transform: translateY(-4px);
-    }
-
-    .profile img {
-      width: 160px;
-      height: 160px;
-      border-radius: 16px;
-      object-fit: cover;
-      margin-bottom: 16px;
-      transition: transform 0.3s ease;
-    }
-
-    .profile img:hover {
-      transform: scale(1.05);
-    }
-
-    .profile h2 {
-      font-size: clamp(1.5rem, 4vw, 1.8rem);
-      color: var(--text);
-      margin-bottom: 12px;
-    }
-
-    .profile p {
-      font-size: clamp(0.9rem, 2vw, 0.95rem);
-      color: var(--text-muted);
       text-align: center;
-      margin-bottom: 16px;
-      line-height: 1.6;
     }
 
-    .twitch-button {
-      background: var(--twitch-color);
+    .current-date {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      color: #b0b0b0;
+    }
+
+    body.light-mode .current-date {
+      color: #666;
+    }
+
+    .timer-container {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #222;
       border-radius: 8px;
-      padding: 10px 24px;
-      color: var(--text);
-      font-size: clamp(0.95rem, 2vw, 1rem);
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      text-decoration: none;
+      transition: background-color 0.3s;
     }
 
-    .twitch-button:hover {
-      background: var(--twitch-color-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--glow);
+    body.light-mode .timer-container {
+      background: #e0e0e0;
     }
 
-    .next-streamer-container {
-      margin-top: 24px;
-      text-align: center;
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      padding: 20px;
-      border-radius: 12px;
-      border: 1px solid var(--glass-border);
-      width: 100%;
-      max-width: 600px;
-      box-shadow: var(--shadow);
+    .streamer-name {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
     }
 
-    .next-streamer-container h3 {
-      font-size: clamp(1.2rem, 3vw, 1.3rem);
-      color: var(--text);
-      margin-bottom: 12px;
-    }
-
-    .next-streamer-container p {
-      font-size: clamp(0.9rem, 2vw, 0.95rem);
-      color: var(--text-muted);
-      margin-bottom: 16px;
-      line-height: 1.6;
-    }
-
-    .calendar-button {
-      background: var(--calendar-button);
-      border-radius: 8px;
-      padding: 10px 20px;
-      color: var(--text);
-      font-size: clamp(0.9rem, 2vw, 0.95rem);
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      text-decoration: none;
-    }
-
-    .calendar-button:hover {
-      background: var(--calendar-button-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--glow);
-    }
-
-    .reminder-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: center;
-      margin-top: 16px;
-    }
-
-    .reminder-button {
-      background: var(--calendar-button);
-      border-radius: 8px;
-      padding: 10px 20px;
-      color: var(--text);
-      font-size: clamp(0.9rem, 2vw, 0.95rem);
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      width: 100%;
-      max-width: 280px;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    .reminder-button:hover {
-      background: var(--calendar-button-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--glow);
+    .timer {
+      font-size: 1.5rem;
+      font-family: monospace;
+      color: #4a90e2;
+      margin: 0.5rem 0;
     }
 
     .roster-container {
-      margin: 24px 0;
-      width: 100%;
-      max-width: 960px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      padding: 20px;
-      border-radius: 12px;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #222;
+      border-radius: 8px;
+      transition: background-color 0.3s;
     }
 
-    .roster-container h2 {
-      font-size: clamp(1.3rem, 3vw, 1.6rem);
-      color: var(--text);
-      margin-bottom: 16px;
+    body.light-mode .roster-container {
+      background: #e0e0e0;
     }
 
     .roster-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: clamp(0.9rem, 2vw, 0.95rem);
-      table-layout: auto;
+      font-size: 1rem;
     }
 
     .roster-table th,
     .roster-table td {
-      padding: 10px 12px;
+      padding: 0.5rem;
       text-align: left;
-      color: var(--text);
-      font-weight: 500;
-      border-bottom: 1px solid var(--glass-border);
-      vertical-align: middle;
-      min-width: 120px;
+      border-bottom: 1px solid #444;
+    }
+
+    body.light-mode .roster-table th,
+    body.light-mode .roster-table td {
+      border-bottom: 1px solid #ccc;
     }
 
     .roster-table th {
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.05);
-      text-transform: uppercase;
-      font-size: clamp(0.8rem, 2vw, 0.85rem);
-      color: var(--text-muted);
+      color: #e0e0e0;
+      font-weight: bold;
     }
 
-    .roster-table tr {
-      transition: background 0.2s ease;
+    body.light-mode .roster-table th {
+      color: #333;
     }
 
-    .roster-table tr:hover {
-      background: rgba(255, 255, 255, 0.08);
+    .roster-table td {
+      color: #d0d0d0;
     }
 
-    .roster-table .live-now {
-      background: var(--live-badge);
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .roster-table .live-now:hover {
-      background: var(--live-badge-hover);
-    }
-
-    .countdown {
-      font-weight: 600;
-      color: var(--text);
-      display: block;
-    }
-
-    .next-stream-info {
-      display: block;
-      font-size: clamp(0.8rem, 2vw, 0.85rem);
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .roster-twitch-button {
-      background: var(--live-badge);
-      border-radius: 8px;
-      padding: 6px 12px;
-      color: var(--text);
-      font-size: clamp(0.85rem, 2vw, 0.9rem);
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      min-height: 32px;
-      text-decoration: none;
-    }
-
-    .roster-twitch-button:hover {
-      background: var(--live-badge-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--glow);
-    }
-
-    .roster-vods-button {
-      background: var(--twitch-color);
-      border-radius: 8px;
-      padding: 6px 12px;
-      color: var(--text);
-      font-size: clamp(0.85rem, 2vw, 0.9rem);
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      min-height: 32px;
-      text-decoration: none;
-    }
-
-    .roster-vods-button:hover {
-      background: var(--twitch-color-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--glow);
-    }
-
-    .add-all-button {
-      display: block;
-      margin: 20px auto 0;
-      background: var(--calendar-button);
-      border-radius: 8px;
-      padding: 10px 20px;
-      color: var(--text);
-      font-size: clamp(0.9rem, 2vw, 0.95rem);
-      font-weight: 600;
-      text-align: center;
-      transition: all 0.2s ease;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      cursor: pointer;
-      min-height: 36px;
-    }
-
-    .add-all-button:hover {
-      background: var(--calendar-button-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--glow);
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--glass-bg);
-      color: var(--text);
-      padding: 12px 24px;
-      border-radius: 8px;
-      box-shadow: var(--shadow);
-      z-index: 1000;
-      opacity: 0;
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--glass-border);
-      transition: all 0.3s ease;
-      font-size: clamp(0.9rem, 2vw, 0.95rem);
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(-8px);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      body { padding: 12px; }
-      .intro { padding: 16px; }
-      .intro h1 { font-size: clamp(1.6rem, 4vw, 2rem); }
-      .intro p { font-size: clamp(0.9rem, 2vw, 0.95rem); }
-      .streamer-select { max-width: 100%; }
-      .dropdown__face { padding: 10px 16px; font-size: clamp(0.9rem, 2vw, 0.95rem); }
-      .dropdown__items { padding: 10px; }
-      .dropdown__items li { font-size: clamp(0.85rem, 2vw, 0.9rem); }
-      .profile { padding: 20px; }
-      .profile img { width: 120px; height: 120px; }
-      .profile h2 { font-size: clamp(1.3rem, 3vw, 1.6rem); }
-      .profile p { font-size: clamp(0.85rem, 2vw, 0.9rem); }
-      .twitch-button { padding: 8px 20px; font-size: clamp(0.9rem, 2vw, 0.95rem); }
-      .reminder-button { padding: 8px 16px; font-size: clamp(0.85rem, 2vw, 0.9rem); max-width: 100%; }
-      .next-streamer-container { padding: 16px; }
-      .next-streamer-container h3 { font-size: clamp(1.1rem, 2.5vw, 1.2rem); }
-      .next-streamer-container p { font-size: clamp(0.85rem, 2vw, 0.9rem); }
-      .calendar-button { padding: 8px 16px; font-size: clamp(0.85rem, 2vw, 0.9rem); }
-      .roster-container { padding: 16px; }
-      .roster-table th, .roster-table td {
-        font-size: clamp(0.85rem, 2vw, 0.9rem);
-        padding: 8px 10px;
-      }
-      .roster-table th { font-size: clamp(0.75rem, 2vw, 0.8rem); }
-      .roster-twitch-button, .roster-vods-button { padding: 5px 10px; font-size: clamp(0.8rem, 2vw, 0.85rem); min-height: 28px; }
-      .next-stream-info { font-size: clamp(0.75rem, 2vw, 0.8rem); }
-      .add-all-button { padding: 8px 16px; font-size: clamp(0.85rem, 2vw, 0.9rem); min-height: 32px; }
+    body.light-mode .roster-table td {
+      color: #333;
     }
 
     @media (max-width: 480px) {
-      body { padding: 8px; }
-      .intro { padding: 12px; }
-      .intro h1 { font-size: clamp(1.4rem, 4vw, 1.8rem); }
-      .intro p { font-size: clamp(0.85rem, 2vw, 0.9rem); }
-      .streamer-select { max-width: 100%; }
-      .dropdown__face { padding: 8px 12px; font-size: clamp(0.85rem, 2vw, 0.9rem); }
-      .dropdown__items { padding: 8px; }
-      .dropdown__items li { font-size: clamp(0.8rem, 2vw, 0.85rem); }
-      .profile { padding: 16px; }
-      .profile img { width: 100px; height: 100px; }
-      .profile h2 { font-size: clamp(1.2rem, 3vw, 1.4rem); }
-      .profile p { font-size: clamp(0.8rem, 2vw, 0.85rem); }
-      .twitch-button { padding: 6px 16px; font-size: clamp(0.85rem, 2vw, 0.9rem); }
-      .reminder-button { padding: 6px 12px; font-size: clamp(0.8rem, 2vw, 0.85rem); }
-      .next-streamer-container { padding: 12px; }
-      .next-streamer-container h3 { font-size: clamp(1rem, 2.5vw, 1.1rem); }
-      .next-streamer-container p { font-size: clamp(0.8rem, 2vw, 0.85rem); }
-      .calendar-button { padding: 6px 12px; font-size: clamp(0.8rem, 2vw, 0.85rem); }
-      .roster-container { padding: 12px; }
+      body {
+        padding: 0.5rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .timer {
+        font-size: 1.2rem;
+      }
+
       .roster-table {
-        font-size: clamp(0.8rem, 2vw, 0.85rem);
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
+        font-size: 0.9rem;
       }
-      .roster-table th, .roster-table td {
-        padding: 6px 8px;
-        font-size: clamp(0.75rem, 2vw, 0.8rem);
-        min-width: 100px;
+
+      .roster-table th,
+      .roster-table td {
+        padding: 0.3rem;
       }
-      .roster-table th { font-size: clamp(0.7rem, 2vw, 0.75rem); }
-      .roster-twitch-button, .roster-vods-button { padding: 4px 8px; font-size: clamp(0.75rem, 2vw, 0.8rem); min-height: 24px; }
-      .countdown, .next-stream-info { font-size: clamp(0.7rem, 2vw, 0.75rem); }
-      .add-all-button { padding: 6px 12px; font-size: clamp(0.8rem, 2vw, 0.85rem); min-height: 28px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="intro">
-      <h1>StreamSchedule.me</h1>
-      <p>Explore schedules for your favorite Twitch streamers. Watch live, view VODs, and set calendar reminders. Access via streamschedule.me/@username!</p>
+  <main>
+    <div class="theme-toggle-container">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">Switch to Light Mode</button>
     </div>
-    <div class="streamer-select">
-      <div class="dropdown" role="combobox" aria-expanded="false" aria-labelledby="dropdown-text">
-        <div class="dropdown__face" tabindex="0">
-          <div class="dropdown__text" id="dropdown-text">Select Streamer</div>
-          <div class="dropdown__arrow"></div>
-        </div>
-        <ul class="dropdown__items" id="streamer-dropdown" role="listbox">
-          <!-- Streamer options will be populated by JavaScript -->
-        </ul>
-      </div>
-    </div>
-    <div class="status-container">
-      <a class="live-badge" id="live-badge" href="#" target="_blank" aria-hidden="true">Live on Twitch!</a>
-      <div class="schedule-info" id="schedule-info">Next stream in: TBD</div>
-    </div>
-    <div class="profile" id="profile">
-      <img src="https://i.postimg.cc/k5jh3QWr/wens-logo.png" alt="GynaWENS logo" loading="lazy">
-      <h2>GynaWENS</h2>
-      <p>Join GynaWENS for epic gaming sessions, variety streams, and a vibrant Twitch community!</p>
-      <a class="twitch-button" id="twitch-button" href="#" target="_blank"><i class="fab fa-twitch"></i> Watch on Twitch</a>
-      <div class="next-streamer-container" id="next-streamer">
-        <h3>Upcoming Stream</h3>
-        <p id="next-streamer-text">The next stream will be live with TBD on TBD at TBD NZST</p>
-        <div class="reminder-buttons">
-          <button class="reminder-button" data-type="next-1"><i class="fas fa-bell"></i> Add the next stream to my calendar</button>
-          <button class="reminder-button" data-type="next-7"><i class="fas fa-bell"></i> Add the next 7 streams to my calendar</button>
-          <button class="reminder-button" data-type="month"><i class="fas fa-bell"></i> Add the next month's streams to my calendar</button>
-        </div>
-      </div>
+    <h1>StreamSchedule.me Stream Countdown</h1>
+    <div class="current-date" id="current-date"></div>
+    <div class="timer-container">
+      <div class="streamer-name" id="streamer-name">Loading...</div>
+      <div class="timer" id="stream-timer"></div>
     </div>
     <div class="roster-container">
-      <h2>Streamer Roster</h2>
-      <table class="roster-table" id="roster-table">
+      <table class="roster-table" aria-label="Streamer schedule">
         <thead>
           <tr>
             <th>Streamer</th>
             <th>Next Stream</th>
-            <th>Action</th>
+            <th>Time Until</th>
           </tr>
         </thead>
-        <tbody id="roster-table-body">
-          <!-- Table rows will be populated by JavaScript -->
-        </tbody>
+        <tbody id="roster-body"></tbody>
       </table>
-      <button class="add-all-button" id="add-all-button"><i class="fas fa-bell"></i> Add All Next Streams to Calendar</button>
     </div>
-  </div>
+  </main>
+
   <script>
     const streamers = [
-      {
-        id: 'xwlasxd',
-        name: 'xwlasxd',
-        avatar: 'https://i.postimg.cc/F1k6Lykq/xwlasxd-logo.png',
-        twitch: 'https://twitch.tv/xwlasxd',
-        vods: 'https://twitch.tv/xwlasxd/videos',
-        startHour: 0,
-        endHour: 3,
-        streamingDays: [1, 3, 5, 0]
-      },
-      {
-        id: 'HeavySamLifts',
-        name: 'HeavySamLifts',
-        avatar: 'https://i.postimg.cc/MMNrLTNd/HSL-logo.png',
-        twitch: 'https://twitch.tv/HeavySamLifts',
-        vods: 'https://twitch.tv/HeavySamLifts/videos',
-        startHour: 3,
-        endHour: 6,
-        streamingDays: [1, 3, 5, 0]
-      },
-      {
-        id: 'ShadyPeterLive',
-        name: 'ShadyPeterLive',
-        avatar: 'https://i.postimg.cc/2V4XHCw7/shady-peter-live-profile-3k.png',
-        twitch: 'https://twitch.tv/ShadyPeterLive',
-        vods: 'https://twitch.tv/ShadyPeterLive/videos',
-        startHour: 6,
-        endHour: 9,
-        streamingDays: [1, 3, 5, 0]
-      },
-      {
-        id: 'ramkrishanghoil',
-        name: 'ramkrishanghoil',
-        avatar: 'https://i.postimg.cc/3kTz7kRq/rkg-logo.png',
-        twitch: 'https://twitch.tv/ramkrishanghoil',
-        vods: 'https://twitch.tv/ramkrishanghoil/videos',
-        startHour: 9,
-        endHour: 12,
-        streamingDays: [1, 3, 5, 0]
-      },
-      {
-        id: 'zxckjsdv',
-        name: 'zxckjsdv',
-        avatar: 'https://i.postimg.cc/0QqJjT1F/zxckjsdv-profile.png',
-        twitch: 'https://twitch.tv/zxckjsdv',
-        vods: 'https://twitch.tv/zxckjsdv/videos',
-        startHour: 12,
-        endHour: 15,
-        streamingDays: [1, 3, 5, 0]
-      },
-      {
-        id: 'brbcompiling',
-        name: 'brbcompiling',
-        avatar: 'https://i.postimg.cc/LXhwKQ7N/brbcompiling-profile.png',
-        twitch: 'https://twitch.tv/brbcompiling',
-        vods: 'https://twitch.tv/brbcompiling/videos',
-        startHour: 15,
-        endHour: 18,
-        streamingDays: [1, 3, 5, 0]
-      },
-      {
-        id: 'TrevorMarksman',
-        name: 'TrevorMarksman',
-        avatar: 'https://i.postimg.cc/ZRpYD5yd/random-easy-logo.png',
-        twitch: 'https://twitch.tv/TrevorMarksman',
-        vods: 'https://twitch.tv/TrevorMarksman/videos',
-        startHour: 0,
-        endHour: 3,
-        streamingDays: [2, 4, 6]
-      },
-      {
-        id: 'ValentineCoolio',
-        name: 'ValentineCoolio',
-        avatar: 'https://i.postimg.cc/P57tXwWD/coolio-kick.png',
-        twitch: 'https://twitch.tv/ValentineCoolio',
-        vods: 'https://twitch.tv/ValentineCoolio/videos',
-        startHour: 3,
-        endHour: 6,
-        streamingDays: [2, 4, 6]
-      },
-      {
-        id: 'LegacyMartian',
-        name: 'LegacyMartian',
-        avatar: 'https://i.postimg.cc/PLfcp01z/legacy-martian-logo.png',
-        twitch: 'https://twitch.tv/LegacyMartian',
-        vods: 'https://twitch.tv/LegacyMartian/videos',
-        startHour: 6,
-        endHour: 9,
-        streamingDays: [2, 4, 6]
-      },
-      {
-        id: 'BizaroPeter',
-        name: 'BizaroPeter',
-        avatar: 'https://i.postimg.cc/9XsKQYKC/bizaropeter-profile.png',
-        twitch: 'https://twitch.tv/BizaroPeter',
-        vods: 'https://twitch.tv/BizaroPeter/videos',
-        startHour: 9,
-        endHour: 12,
-        streamingDays: [2, 4, 6]
-      },
-      {
-        id: 'GynaWENS',
-        name: 'GynaWENS',
-        avatar: 'https://i.postimg.cc/k5jh3QWr/wens-logo.png',
-        twitch: 'https://twitch.tv/GynaWENS',
-        vods: 'https://twitch.tv/GynaWENS/videos',
-        startHour: 12,
-        endHour: 15,
-        streamingDays: [2, 4, 6]
-      },
-      {
-        id: 'MovieByMacaffe',
-        name: 'MovieByMacaffe',
-        avatar: 'https://i.postimg.cc/hjLg1ZH8/macaffe-best-logo.png',
-        twitch: 'https://twitch.tv/MovieByMacaffe',
-        vods: 'https://twitch.tv/MovieByMacaffe/videos',
-        startHour: 15,
-        endHour: 18,
-        streamingDays: [2, 4, 6]
-      },
-      {
-        id: 'xvbrznem',
-        name: 'xvbrznem',
-        avatar: 'https://i.postimg.cc/HcVh35Zr/xvbrznem-logo.jpg',
-        twitch: 'https://twitch.tv/xvbrznem',
-        vods: 'https://twitch.tv/xvbrznem/videos',
-        startHour: 18,
-        endHour: 24,
-        streamingDays: [1, 2, 3, 4, 5, 6, 0]
-      }
+      { id: 'xwlasxd', name: 'xwlasxd', startHour: 0, endHour: 3, streamingDays: [0, 1, 3, 5] },
+      { id: 'HeavySamLifts', name: 'HeavySamLifts', startHour: 3, endHour: 6, streamingDays: [0, 1, 3, 5] },
+      { id: 'ShadyPeterLive', name: 'ShadyPeterLive', startHour: 6, endHour: 9, streamingDays: [0, 1, 3, 5] },
+      { id: 'ramkrishanghoil', name: 'ramkrishanghoil', startHour: 9, endHour: 12, streamingDays: [0, 1, 3, 5] },
+      { id: 'zxckjsdv', name: 'zxckjsdv', startHour: 12, endHour: 15, streamingDays: [0, 1, 3, 5] },
+      { id: 'brbcompiling', name: 'brbcompiling', startHour: 15, endHour: 18, streamingDays: [0, 1, 3, 5] },
+      { id: 'TrevorMarksman', name: 'TrevorMarksman', startHour: 0, endHour: 3, streamingDays: [2, 4, 6] },
+      { id: 'ValentineCoolio', name: 'ValentineCoolio', startHour: 3, endHour: 6, streamingDays: [2, 4, 6] },
+      { id: 'LegacyMartian', name: 'LegacyMartian', startHour: 6, endHour: 9, streamingDays: [2, 4, 6] },
+      { id: 'MovieByMacaffe', name: 'MovieByMacaffe', startHour: 9, endHour: 12, streamingDays: [2, 4, 6] },
+      { id: 'BizaroPeter', name: 'BizaroPeter', startHour: 12, endHour: 15, streamingDays: [2, 4, 6] },
+      { id: 'GynaWENS', name: 'GynaWENS', startHour: 15, endHour: 18, streamingDays: [2, 4, 6] },
+      { id: 'xvbrznem', name: 'xvbrznem', startHour: 18, endHour: 24, streamingDays: [0, 1, 2, 3, 4, 5, 6] }
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
-      const dropdownFace = document.querySelector('.dropdown__face');
-      const dropdownItems = document.querySelector('.dropdown__items');
-      const dropdownText = document.getElementById('dropdown-text');
-      const profile = document.getElementById('profile');
-      const profileImg = profile.querySelector('img');
-      const profileTitle = profile.querySelector('h2');
-      const profileDescription = profile.querySelector('p');
-      const twitchButton = document.getElementById('twitch-button');
-      const liveBadge = document.getElementById('live-badge');
-      const scheduleInfo = document.getElementById('schedule-info');
-      const nextStreamerText = document.getElementById('next-streamer-text');
-      const reminderButtons = document.querySelectorAll('.reminder-button');
-      const dropdown = document.querySelector('.dropdown');
-      const rosterTableBody = document.getElementById('roster-table-body');
-      const addAllButton = document.getElementById('add-all-button');
+      const themeToggle = document.getElementById('theme-toggle');
+      const currentDateEl = document.getElementById('current-date');
+      const streamerNameEl = document.getElementById('streamer-name');
+      const streamTimerEl = document.getElementById('stream-timer');
+      const rosterBody = document.getElementById('roster-body');
 
-      let selectedStreamerId = null;
-      let isLiveNowSelected = false;
-      let updateInterval = null;
+      // Theme toggle with system preference fallback
+      const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.body.classList.toggle('light-mode', savedTheme === 'light');
+      themeToggle.textContent = savedTheme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode';
 
-      function showToast(message) {
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.classList.add('show'), 10);
-        setTimeout(() => {
-          toast.classList.remove('show');
-          setTimeout(() => document.body.removeChild(toast), 300);
-        }, 3000);
-      }
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const newTheme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+        themeToggle.textContent = newTheme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+      });
 
       function getNzTime(date) {
-        try {
-          return new Date(date.toLocaleString("en-US", { timeZone: "Pacific/Auckland" }));
-        } catch (e) {
-          console.warn('Error getting NZ time:', e.message);
-          return new Date();
-        }
+        return new Date(date.toLocaleString('en-US', { timeZone: 'Pacific/Auckland' }));
       }
 
-      function isStreamingDay(streamer, date) {
-        return streamer.streamingDays.includes(date.getDay());
+      function isNzdt() {
+        // Consider using a library like luxon for robust DST detection
+        const date = new Date();
+        const jan = new Date(date.getFullYear(), 0, 1);
+        const jul = new Date(date.getFullYear(), 6, 1);
+        const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+        return date.getTimezoneOffset() < stdOffset;
       }
 
-      function isStreamerLive(streamer) {
+      function isStreamingDay(streamer) {
+        if (!streamer || !streamer.streamingDays) return false;
         const nzTime = getNzTime(new Date());
-        const currentHour = nzTime.getHours();
-        const currentDay = nzTime.getDay();
-        const isLive = isStreamingDay(streamer, nzTime) && currentHour >= streamer.startHour && currentHour < streamer.endHour;
-        console.debug(`Checking live status for ${streamer.name}: Day=${currentDay}, Hour=${currentHour}, StreamingDays=${streamer.streamingDays}, Start=${streamer.startHour}, End=${streamer.endHour}, IsLive=${isLive}`);
-        return isLive;
-      }
-
-      function getTimeLeft(streamer) {
-        const nzTime = getNzTime(new Date());
-        let endDate = new Date(nzTime);
-        endDate.setHours(streamer.endHour, 0, 0, 0);
-        if (endDate <= nzTime) {
-          endDate.setDate(endDate.getDate() + 1);
-        }
-        const timeDiffMs = endDate - nzTime;
-        const hoursLeft = Math.floor(timeDiffMs / (1000 * 60 * 60));
-        const minutesLeft = Math.floor((timeDiffMs % (1000 * 60 * 60)) / (1000 * 60));
-        let timeString = '';
-        if (hoursLeft > 0) timeString += `${hoursLeft}h `;
-        if (minutesLeft > 0) timeString += `${minutesLeft}m`;
-        return timeString.trim() || '<1m';
-      }
-
-      function getNextStreamInfo(streamer) {
-        const nzTime = getNzTime(new Date());
-        const currentDay = nzTime.getDay();
-        const currentHour = nzTime.getHours();
-        let daysToAdd = 0;
-
-        const isTodayStreamingDay = isStreamingDay(streamer, nzTime);
-        const hasStreamEndedToday = isTodayStreamingDay && currentHour >= streamer.endHour;
-
-        let startOffset = hasStreamEndedToday || isStreamerLive(streamer) ? 1 : 0;
-        for (let i = startOffset; i <= 7 + startOffset; i++) {
-          const nextDay = (currentDay + i) % 7;
-          if (streamer.streamingDays.includes(nextDay)) {
-            daysToAdd = i;
-            break;
-          }
-        }
-
-        const nextStreamDate = new Date(nzTime);
-        nextStreamDate.setDate(nzTime.getDate() + daysToAdd);
-        nextStreamDate.setHours(streamer.startHour, 0, 0, 0);
-
-        if (isTodayStreamingDay && !hasStreamEndedToday && !isStreamerLive(streamer) && currentHour < streamer.startHour) {
-          nextStreamDate.setDate(nzTime.getDate());
-          nextStreamDate.setHours(streamer.startHour, 0, 0, 0);
-        }
-
-        const timeDiffMs = nextStreamDate - nzTime;
-        const hoursLeft = Math.floor(timeDiffMs / (1000 * 60 * 60));
-        const minutesLeft = Math.floor((timeDiffMs % (1000 * 60 * 60)) / (1000 * 60));
-        let countdownString = '';
-        if (hoursLeft > 0) countdownString += `${hoursLeft}h `;
-        if (minutesLeft > 0 || hoursLeft === 0) countdownString += `${minutesLeft}m`;
-
-        const dateString = nextStreamDate.toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          timeZone: 'Pacific/Auckland'
-        });
-        const dayString = nextStreamDate.toLocaleDateString('en-US', {
-          weekday: 'short',
-          timeZone: 'Pacific/Auckland'
-        });
-        const timeString = nextStreamDate.toLocaleTimeString('en-US', {
-          hour: 'numeric',
-          minute: '2-digit',
-          hour12: true,
-          timeZone: 'Pacific/Auckland'
-        });
-
-        return {
-          countdown: countdownString.trim() || '<1m',
-          date: dateString,
-          day: dayString,
-          time: timeString,
-          nextStreamDate
-        };
+        return streamer.streamingDays.includes(nzTime.getDay());
       }
 
       function getCurrentStreamer() {
-        const liveStreamers = streamers.filter(s => isStreamerLive(s));
-        return liveStreamers[0] || streamers[0];
+        if (!streamers.length) return null;
+        const nzTime = getNzTime(new Date());
+        const currentHour = nzTime.getHours();
+        return streamers.find(s => isStreamingDay(s) && currentHour >= s.startHour && currentHour < s.endHour) || null;
       }
 
-      function getNextStreamer() {
+      function getNextStreamTime(streamer) {
+        if (!streamer) return new Date();
         const nzTime = getNzTime(new Date());
         const currentHour = nzTime.getHours();
         const currentDay = nzTime.getDay();
-        let nextStreamer = streamers.find(s => 
-          isStreamingDay(s, nzTime) && s.startHour > currentHour
-        );
-        if (!nextStreamer) {
-          const nextDay = (currentDay + 1) % 7;
-          nextStreamer = streamers.find(s => s.streamingDays.includes(nextDay));
-        }
-        if (!nextStreamer) {
-          let earliestStreamer = streamers[0];
-          let earliestTime = 24 * 7 + 24;
-          streamers.forEach(s => {
-            s.streamingDays.forEach(day => {
-              const dayDiff = (day - currentDay + 7) % 7 || 7;
-              const timeValue = dayDiff * 24 + s.startHour;
-              if (timeValue < earliestTime) {
-                earliestTime = timeValue;
-                earliestStreamer = s;
-              }
-            });
-          });
-          nextStreamer = earliestStreamer;
-        }
-        return nextStreamer;
-      }
+        let nextStreamTime = new Date(nzTime);
 
-      function formatIcsDate(date) {
-        return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-      }
-
-      function generateIcsFile(streamer, streams) {
-        if (!streams.length) return null;
-        const icsContent = [
-          'BEGIN:VCALENDAR',
-          'VERSION:2.0',
-          'PRODID:-//StreamSchedule.me//Stream Reminder//EN'
-        ];
-
-        streams.forEach((stream, index) => {
-          const startDate = new Date(stream.start);
-          const endDate = new Date(stream.end);
-          const profileUrl = `https://streamschedule.me/@${encodeURIComponent(streamer.id)}`;
-          icsContent.push(
-            'BEGIN:VEVENT',
-            `UID:${streamer.id}-${stream.start.getTime()}-${index}@streamschedule.me`,
-            `DTSTAMP:${formatIcsDate(new Date())}`,
-            `DTSTART:${formatIcsDate(startDate)}`,
-            `DTEND:${formatIcsDate(endDate)}`,
-            `SUMMARY:${streamer.name}'s Live Stream`,
-            `DESCRIPTION:Join ${streamer.name} for an epic live stream on Twitch at ${streamer.twitch}! View schedule at ${profileUrl}`,
-            `URL:${profileUrl}`,
-            'BEGIN:VALARM',
-            'TRIGGER:-PT15M',
-            'ACTION:DISPLAY',
-            `DESCRIPTION:Reminder: ${streamer.name}'s stream is starting soon!`,
-            'END:VALARM',
-            'END:VEVENT'
-          );
-        });
-
-        icsContent.push('END:VCALENDAR');
-
-        const blob = new Blob([icsContent.join('\r\n')], { type: 'text/calendar' });
-        return URL.createObjectURL(blob);
-      }
-
-      function generateCombinedIcsFile(streamersStreams) {
-        if (!streamersStreams.length) return null;
-        const icsContent = [
-          'BEGIN:VCALENDAR',
-          'VERSION:2.0',
-          'PRODID:-//StreamSchedule.me//Stream Reminder//EN'
-        ];
-
-        streamersStreams.forEach(({ streamer, stream }, index) => {
-          const startDate = new Date(stream.start);
-          const endDate = new Date(stream.end);
-          const profileUrl = `https://streamschedule.me/@${encodeURIComponent(streamer.id)}`;
-          icsContent.push(
-            'BEGIN:VEVENT',
-            `UID:${streamer.id}-${stream.start.getTime()}-${index}@streamschedule.me`,
-            `DTSTAMP:${formatIcsDate(new Date())}`,
-            `DTSTART:${formatIcsDate(startDate)}`,
-            `DTEND:${formatIcsDate(endDate)}`,
-            `SUMMARY:${streamer.name}'s Live Stream`,
-            `DESCRIPTION:Join ${streamer.name} for an epic live stream on Twitch at ${streamer.twitch}! View schedule at ${profileUrl}`,
-            `URL:${profileUrl}`,
-            'BEGIN:VALARM',
-            'TRIGGER:-PT15M',
-            'ACTION:DISPLAY',
-            `DESCRIPTION:Reminder: ${streamer.name}'s stream is starting soon!`,
-            'END:VALARM',
-            'END:VEVENT'
-          );
-        });
-
-        icsContent.push('END:VCALENDAR');
-
-        const blob = new Blob([icsContent.join('\r\n')], { type: 'text/calendar' });
-        return URL.createObjectURL(blob);
-      }
-
-      function getStreams(streamer, limit, daysLimit = Infinity) {
-        const nzTime = getNzTime(new Date());
-        const streams = [];
-        let currentDate = new Date(nzTime);
-        let count = 0;
-        let daysChecked = 0;
-
-        const isTodayStreamingDay = isStreamingDay(streamer, nzTime);
-        const hasStreamEndedToday = isTodayStreamingDay && nzTime.getHours() >= streamer.endHour;
-        if (hasStreamEndedToday) {
-          currentDate.setDate(currentDate.getDate() + 1);
-          daysChecked = 1;
-        }
-
-        while ((count < limit || limit === Infinity) && daysChecked < daysLimit) {
-          if (isStreamingDay(streamer, currentDate)) {
-            const streamDate = new Date(currentDate);
-            streamDate.setHours(streamer.startHour, 0, 0, 0);
-            const endDate = new Date(currentDate);
-            endDate.setHours(streamer.endHour, 0, 0, 0);
-            if (streamDate > nzTime) {
-              streams.push({ start: streamDate, end: endDate });
-              count++;
-            }
+        if (streamer.streamingDays.length === 7) {
+          if (currentHour >= streamer.startHour) {
+            nextStreamTime.setDate(nzTime.getDate() + 1);
           }
-          currentDate.setDate(currentDate.getDate() + 1);
-          daysChecked++;
-          if (daysChecked > 365) break;
-        }
-
-        return streams;
-      }
-
-      function populateRosterTable() {
-        const streamerData = streamers.map(streamer => {
-          const isLive = isStreamerLive(streamer);
-          const streamInfo = getNextStreamInfo(streamer);
-          return {
-            streamer,
-            isLive,
-            nextStreamDate: isLive ? new Date(0) : streamInfo.nextStreamDate,
-            streamInfo
-          };
-        });
-
-        streamerData.sort((a, b) => {
-          if (a.isLive && !b.isLive) return -1;
-          if (!a.isLive && b.isLive) return 1;
-          return a.nextStreamDate - b.nextStreamDate;
-        });
-
-        rosterTableBody.innerHTML = '';
-        streamerData.forEach(({ streamer, isLive, streamInfo }) => {
-          const row = document.createElement('tr');
-          if (isLive) row.classList.add('live-now');
-          row.innerHTML = `
-            <td><a href="${streamer.twitch}" target="_blank">${streamer.name}</a></td>
-            <td>
-              ${isLive ? 
-                `<span class="countdown">${getTimeLeft(streamer)} left</span>` :
-                `<span class="countdown">In ${streamInfo.countdown}</span>
-                 <span class="next-stream-info">${streamInfo.day}, ${streamInfo.date} at ${streamInfo.time}</span>`
-              }
-            </td>
-            <td>
-              ${isLive ?
-                `<a href="${streamer.twitch}" target="_blank" class="roster-twitch-button"><i class="fab fa-twitch"></i> Watch Live</a>` :
-                `<a href="${streamer.vods}" target="_blank" class="roster-vods-button"><i class="fab fa-twitch"></i> Watch VODs</a>`
-              }
-            </td>
-          `;
-          rosterTableBody.appendChild(row);
-        });
-      }
-
-      function updateProfile(streamer) {
-        if (!streamer) {
-          streamer = getCurrentStreamer();
-          showToast('No streamer selected, defaulting to live or first streamer.');
-        }
-        selectedStreamerId = streamer.id;
-        profileImg.src = streamer.avatar;
-        profileImg.alt = `${streamer.name} logo`;
-        profileTitle.textContent = streamer.name;
-        profileDescription.textContent = `Join ${streamer.name} for epic gaming sessions, variety streams, and a vibrant Twitch community!`;
-        twitchButton.href = isStreamerLive(streamer) ? streamer.twitch : streamer.vods;
-        twitchButton.innerHTML = `<i class="fab fa-twitch"></i> ${isStreamerLive(streamer) ? 'Watch on Twitch' : 'Watch VODs'}`;
-        twitchButton.style.background = isStreamerLive(streamer) ? 'var(--live-badge)' : 'var(--twitch-color)';
-        const streamInfo = getNextStreamInfo(streamer);
-        if (isStreamerLive(streamer)) {
-          liveBadge.classList.add('active');
-          liveBadge.href = streamer.twitch;
-          liveBadge.textContent = `Live on Twitch! (${getTimeLeft(streamer)} left)`;
-          scheduleInfo.classList.remove('active');
+          nextStreamTime.setHours(streamer.startHour, 0, 0, 0);
         } else {
-          liveBadge.classList.remove('active');
-          scheduleInfo.classList.add('active');
-          scheduleInfo.textContent = `Next stream in: ${streamInfo.countdown}`;
+          if (isStreamingDay(streamer) && currentHour < streamer.startHour) {
+            nextStreamTime.setHours(streamer.startHour, 0, 0, 0);
+          } else {
+            let nextDay = currentDay;
+            let daysUntilNext = 1;
+            while (!streamer.streamingDays.includes((nextDay + daysUntilNext) % 7)) daysUntilNext++;
+            nextStreamTime.setDate(nzTime.getDate() + daysUntilNext);
+            nextStreamTime.setHours(streamer.startHour, 0, 0, 0);
+          }
         }
-        nextStreamerText.textContent = `The next stream will be live with ${streamer.name} on ${streamInfo.day}, ${streamInfo.date} at ${streamInfo.time} NZST`;
-        reminderButtons.forEach(button => {
-          button.onclick = () => {
-            let streams;
-            switch (button.dataset.type) {
-              case 'next-1':
-                streams = getStreams(streamer, 1);
-                break;
-              case 'next-7':
-                streams = getStreams(streamer, 7);
-                break;
-              case 'month':
-                streams = getStreams(streamer, Infinity, 30);
-                break;
-            }
-            if (streams.length > 0) {
-              const icsUrl = generateIcsFile(streamer, streams);
-              if (icsUrl) {
-                const a = document.createElement('a');
-                a.href = icsUrl;
-                a.download = `${streamer.name}_streams_${streams[0].start.toLocaleDateString('en-US').replace(/, /g, '')}.ics`;
-                a.click();
-                URL.revokeObjectURL(icsUrl);
-                showToast(`Added ${streams.length} stream${streams.length > 1 ? 's' : ''} to your calendar!`);
-              } else {
-                showToast('Error generating calendar file.');
-              }
-            } else {
-              showToast('No upcoming streams found for the selected period.');
-            }
-          };
-        });
-        try {
-          window.history.replaceState(null, null, `/@${encodeURIComponent(streamer.id)}`);
-        } catch (e) {
-          console.warn('Unable to update URL:', e.message);
-        }
+        return nextStreamTime;
       }
 
-      function updateLiveStatus() {
-        // Update dropdown live status
-        dropdownItems.querySelectorAll('li').forEach(item => {
-          if (item.dataset.streamerId === 'live-now') {
-            const liveStreamer = streamers.find(s => isStreamerLive(s));
-            item.classList.toggle('live-now', !!liveStreamer);
+      function formatTimeDiff(timeDiff) {
+        if (timeDiff < 0) return '0h 0m 0s';
+        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+        return `${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      function updateCurrentDate() {
+        const nzTime = getNzTime(new Date());
+        const timeZone = isNzdt() ? 'NZDT' : 'NZST';
+        currentDateEl.textContent = `Current Date: ${nzTime.toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland' })} ${timeZone}`;
+      }
+
+      function updateTimer() {
+        const nzTime = getNzTime(new Date());
+        const currentStreamer = getCurrentStreamer();
+
+        if (currentStreamer) {
+          streamerNameEl.textContent = `Live Now: @${currentStreamer.name}`;
+          const endTime = new Date(nzTime);
+          endTime.setHours(currentStreamer.endHour, 0, 0, 0);
+          if (endTime < nzTime) endTime.setDate(endTime.getDate() + 1);
+          const timeLeft = endTime - nzTime;
+          streamTimerEl.textContent = `Stream ends in ${formatTimeDiff(timeLeft)}`;
+        } else {
+          const nextStreamer = streamers.reduce((earliest, s) => {
+            const streamTime = getNextStreamTime(s);
+            if (!earliest || streamTime < getNextStreamTime(earliest)) return s;
+            return earliest;
+          }, null);
+          if (!nextStreamer) {
+            streamerNameEl.textContent = 'No upcoming streams';
+            streamTimerEl.textContent = '';
             return;
           }
-          const streamer = streamers.find(s => s.id === item.dataset.streamerId);
-          if (streamer) {
-            const isLive = isStreamerLive(streamer);
-            item.classList.toggle('live-now', isLive);
-            console.debug(`Dropdown update: ${streamer.name}, live-now=${isLive}`);
-          }
-        });
-        // Update roster table
-        populateRosterTable();
-        // Update profile if "Live Now" is selected
-        if (isLiveNowSelected) {
-          const currentStreamer = getCurrentStreamer();
-          updateProfile(currentStreamer);
+          streamerNameEl.textContent = `Next Stream: @${nextStreamer.name}`;
+          const nextStreamTime = getNextStreamTime(nextStreamer);
+          const timeUntil = nextStreamTime - nzTime;
+          streamTimerEl.textContent = timeUntil <= 0 ? 'Should be live soon!' : `Starts in ${formatTimeDiff(timeUntil)}`;
         }
       }
 
-      function initRoster() {
-        populateRosterTable();
-        addAllButton.onclick = () => {
-          const streamersStreams = [];
-          streamers.forEach(streamer => {
-            const streams = getStreams(streamer, 1);
-            if (streams.length > 0) {
-              streamersStreams.push({ streamer, stream: streams[0] });
-            }
-          });
-          if (streamersStreams.length > 0) {
-            const icsUrl = generateCombinedIcsFile(streamersStreams);
-            if (icsUrl) {
-              const a = document.createElement('a');
-              a.href = icsUrl;
-              a.download = `all_streamers_next_streams_${new Date().toLocaleDateString('en-US').replace(/, /g, '')}.ics`;
-              a.click();
-              URL.revokeObjectURL(icsUrl);
-              showToast(`Added ${streamersStreams.length} next streams to your calendar!`);
-            } else {
-              showToast('Error generating calendar file.');
-            }
-          } else {
-            showToast('No upcoming streams found.');
-          }
-        };
-        if (updateInterval) clearInterval(updateInterval);
-        updateInterval = setInterval(updateLiveStatus, 60000);
-      }
-
-      function populateDropdown() {
-        dropdownItems.innerHTML = '';
-        const liveNowLi = document.createElement('li');
-        liveNowLi.dataset.streamerId = 'live-now';
-        liveNowLi.textContent = 'Live Now';
-        liveNowLi.tabIndex = 0;
-        liveNowLi.setAttribute('role', 'option');
-        const liveStreamer = streamers.find(s => isStreamerLive(s));
-        if (liveStreamer) {
-          liveNowLi.classList.add('live-now');
+      function updateRoster() {
+        if (!streamers.length) {
+          rosterBody.innerHTML = '<tr><td colspan="3">No streamers available</td></tr>';
+          return;
         }
-        dropdownItems.appendChild(liveNowLi);
-
+        const nzTime = getNzTime(new Date());
+        const timeZone = isNzdt() ? 'NZDT' : 'NZST';
+        rosterBody.innerHTML = '';
         streamers.forEach(streamer => {
-          const li = document.createElement('li');
-          li.dataset.streamerId = streamer.id;
-          li.textContent = streamer.name;
-          li.tabIndex = 0;
-          li.setAttribute('role', 'option');
-          if (isStreamerLive(streamer)) {
-            li.classList.add('live-now');
-            console.debug(`Initial dropdown: ${streamer.name} marked as live-now`);
-          }
-          dropdownItems.appendChild(li);
+          const nextStreamTime = getNextStreamTime(streamer);
+          const timeUntil = nextStreamTime - nzTime;
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>@${streamer.name}</td>
+            <td>${nextStreamTime.toLocaleString('en-NZ', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })} ${timeZone}</td>
+            <td>${timeUntil <= 0 ? 'Soon' : 'in ' + formatTimeDiff(timeUntil)}</td>
+          `;
+          rosterBody.appendChild(row);
         });
-      }
-
-      populateDropdown();
-
-      function toggleDropdown() {
-        const isOpen = dropdownItems.classList.contains('active');
-        dropdownItems.classList.toggle('active');
-        dropdownFace.classList.toggle('active');
-        dropdown.setAttribute('aria-expanded', !isOpen);
-        if (!isOpen) {
-          dropdownItems.querySelector('li').focus();
-        }
-      }
-
-      function closeDropdown() {
-        dropdownItems.classList.remove('active');
-        dropdownFace.classList.remove('active');
-        dropdown.setAttribute('aria-expanded', 'false');
-        dropdownFace.focus();
-      }
-
-      dropdownFace.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleDropdown();
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!dropdown.contains(e.target)) {
-          closeDropdown();
-        }
-      });
-
-      dropdownFace.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          toggleDropdown();
-        }
-      });
-
-      dropdownItems.addEventListener('keydown', (e) => {
-        const items = Array.from(dropdownItems.querySelectorAll('li'));
-        const currentIndex = items.indexOf(document.activeElement);
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          const nextIndex = (currentIndex + 1) % items.length;
-          items[nextIndex].focus();
-        } else if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          const prevIndex = (currentIndex - 1 + items.length) % items.length;
-          items[prevIndex].focus();
-        } else if (e.key === 'Escape') {
-          e.preventDefault();
-          closeDropdown();
-        }
-      });
-
-      dropdownItems.addEventListener('click', (e) => {
-        const item = e.target.closest('li');
-        if (item) {
-          e.stopPropagation();
-          let selectedStreamer;
-          if (item.dataset.streamerId === 'live-now') {
-            selectedStreamer = getCurrentStreamer();
-            dropdownText.textContent = 'Live Now';
-            isLiveNowSelected = true;
-          } else {
-            selectedStreamer = streamers.find(s => s.id === item.dataset.streamerId);
-            dropdownText.textContent = selectedStreamer.name;
-            isLiveNowSelected = false;
-          }
-          updateProfile(selectedStreamer);
-          closeDropdown();
-        }
-      });
-
-      dropdownItems.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          const item = e.target.closest('li');
-          if (item) {
-            let selectedStreamer;
-            if (item.dataset.streamerId === 'live-now') {
-              selectedStreamer = getCurrentStreamer();
-              dropdownText.textContent = 'Live Now';
-              isLiveNowSelected = true;
-            } else {
-              selectedStreamer = streamers.find(s => s.id === item.dataset.streamerId);
-              dropdownText.textContent = selectedStreamer.name;
-              isLiveNowSelected = false;
-            }
-            updateProfile(selectedStreamer);
-            closeDropdown();
-          }
-        }
-      });
-
-      function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-          const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-          };
-          clearTimeout(timeout);
-          timeout = setTimeout(later, wait);
-        };
-      }
-
-      function loadStreamerFromPath() {
-        const path = window.location.pathname;
-        const match = path.match(/^\/@([^/]+)/);
-        if (match) {
-          const username = decodeURIComponent(match[1]).toLowerCase();
-          const selectedStreamer = streamers.find(s => s.id.toLowerCase() === username);
-          if (selectedStreamer) {
-            dropdownText.textContent = selectedStreamer.name;
-            isLiveNowSelected = false;
-            updateProfile(selectedStreamer);
-            return selectedStreamer;
-          }
-        }
-        return null;
       }
 
       function init() {
-        let selectedStreamer = loadStreamerFromPath();
-        if (!selectedStreamer) {
-          selectedStreamer = getCurrentStreamer();
-          dropdownText.textContent = selectedStreamer.name;
-          isLiveNowSelected = false;
-          try {
-            window.history.replaceState(null, null, `/@${encodeURIComponent(selectedStreamer.id)}`);
-          } catch (e) {
-            console.warn('Unable to set initial URL:', e.message);
-          }
-        }
-        updateProfile(selectedStreamer);
-        initRoster();
+        updateCurrentDate();
+        updateTimer();
+        updateRoster();
       }
 
       init();
 
-      const handlePathChange = debounce(() => {
-        const selectedStreamer = loadStreamerFromPath();
-        if (selectedStreamer) {
-          updateProfile(selectedStreamer);
-        } else {
-          const fallbackStreamer = getCurrentStreamer();
-          dropdownText.textContent = fallbackStreamer.name;
-          isLiveNowSelected = false;
-          updateProfile(fallbackStreamer);
-        }
-      }, 100);
-
-      window.addEventListener('popstate', handlePathChange);
-
-      window.addEventListener('unload', () => {
-        if (updateInterval) clearInterval(updateInterval);
-      });
+      // Update timer and date every second, roster every minute
+      setInterval(() => {
+        updateCurrentDate();
+        updateTimer();
+      }, 1000);
+      setInterval(updateRoster, 60 * 1000);
     });
   </script>
 </body>
